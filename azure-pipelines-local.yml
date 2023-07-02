@@ -21,7 +21,7 @@ steps:
   inputs:
     script: |
       echo Running ng serve...
-      pwd 
+      path 
       ng serve
       
 - script: |
