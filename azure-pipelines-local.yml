@@ -21,8 +21,8 @@ steps:
   inputs:
     script: |
       echo Running ng serve...
-      path 
-      ng serve
+      dir 
+      npm ng serve
       
 - script: |
     echo Add other tasks to build, test, and deploy your project.
