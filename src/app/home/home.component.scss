@@ -1,0 +1,32 @@
+/* Define standard variables and values for website */
+
+$textcolor: rgb(73, 73, 75);
+$headerbgcolor: rgb(248, 248, 248);
+$bodybgcolor: rgb(248, 248, 248);
+$bodyfontsize: 18px;
+$headerfontsize: 22px;
+
+/* Use the variables */
+body {
+  margin: 30;
+  padding: 30;
+  background-color: $bodybgcolor;
+  color: $textcolor;
+  font-size: $bodyfontsize;
+}
+
+header {
+    background-color: $headerbgcolor;
+    font-size: $headerfontsize;
+    color: $textcolor;
+}
+
+.supportbutton {
+    display:inline-block;
+    font-size:14px;
+    padding:4px 10px;
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+}
