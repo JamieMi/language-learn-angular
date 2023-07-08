@@ -9,7 +9,7 @@
     ]
   },
   "files": [
-    "src.setup.test.js",
+    "src/setup.test.ts",
     "src/polyfills.ts"
   ],
   "include": [
