@@ -20,20 +20,13 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('language-learn');
   });
 
-  console.error("Content:");// $(compiled.querySelector('.content span')?.textContent))");
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     /*
-    console.error(`Content: ${24525.6}`);
-    console.error(`Content: ${compiled.querySelector('.content span')?.textContent}`);
-    try{
-      expect(compiled.querySelector('.content span')?.textContent).toContain('Language Learn');
-    }
-    catch (e){
-      console.error(`Content: ${compiled.querySelector('.content span')?.textContent}`);
-    }*/
+    expect(compiled.querySelector('.content span')?.textContent).toContain('Language Learn');
+    */
   });
   
   it('two plus two is four', () => {
