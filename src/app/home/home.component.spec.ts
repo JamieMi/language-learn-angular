@@ -18,4 +18,12 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });  
+
+  it("throwing error", () => {
+    expect(() => component.throwError()).toThrow();
+    expect(() => component.throwError()).toThrow(Error);
+
+    expect(() => component.throwError()).not.toThrow('A particular error');
+    expect(() => component.throwError()).toThrow(/invoked/);
+  });
 });

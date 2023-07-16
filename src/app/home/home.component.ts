@@ -9,5 +9,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  throwError() {
+    throw new Error('an error has been invoked');
+  }
 
 }
