@@ -27,12 +27,17 @@ steps:
     npm install
     ng build --prod
   displayName: 'npm install and build'
-
-- task: CmdLine@2
+- task: Npm@1
   inputs:
-    script: |
-      echo Running ng serve...
-      
+    command: 'custom'
+    customCommand: 'run test'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    failTaskOnFailedTests: true
+    testRunTitle: 'Publish Test Results'
+    
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
