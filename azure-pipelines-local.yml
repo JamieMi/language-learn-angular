@@ -32,6 +32,10 @@ steps:
     npm install --save-dev jest
   displayName: 'npm jest install'
   
+- script: |
+    npm run test
+  displayName: 'npm run test'
+  
 - task: Npm@1
   inputs:
     command: 'custom'
