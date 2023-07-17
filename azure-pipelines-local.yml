@@ -31,24 +31,17 @@ steps:
 - script: |
     npm install --save-dev jest
   displayName: 'npm jest install'
-  
+
 - script: |
+    npm install --save-dev @types/jest jest-preset-angular
+  displayName: 'npm jest preset angular installation'
+
+# (npm@1 task doesn't find the working directory yet, even with $(Build.SourcesDirectory) specified)
+# ... so using a script directly:
+- script: |
+    echo (script doesn't find the working directory by itself)
+    cd ..\
+    echo (hardcoded location at the moment)
+    cd 2\s
     npm run test
   displayName: 'npm run test'
-  
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    workingDir: '$(Build.SourcesDirectory)'
-    customCommand: 'run test'
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
-    failTaskOnFailedTests: true
-    testRunTitle: 'Publish Test Results'
-    
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
