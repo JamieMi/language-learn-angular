@@ -27,6 +27,12 @@ steps:
     npm install
     ng build --prod
   displayName: 'npm install and build'
+  
+
+- script: |
+    npm install --save-dev jest
+  displayName: 'npm jest install'
+  
 - task: Npm@1
   inputs:
     command: 'custom'
