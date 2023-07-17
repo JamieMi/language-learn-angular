@@ -36,7 +36,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: '$(Build.SourcesDirectory)'
-    customCommand: 'run jest'
+    customCommand: 'run test'
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
