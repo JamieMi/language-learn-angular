@@ -28,7 +28,6 @@ steps:
     ng build --prod
   displayName: 'npm install and build'
   
-
 - script: |
     npm install --save-dev jest
   displayName: 'npm jest install'
@@ -36,7 +35,7 @@ steps:
 - task: Npm@1
   inputs:
     command: 'custom'
-    customCommand: 'run test'
+    customCommand: 'run jest'
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
