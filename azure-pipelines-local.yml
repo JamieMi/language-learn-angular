@@ -40,14 +40,9 @@ steps:
 # ... so using a script directly:
 - script: |
     echo (script doesn't find the working directory by itself)
-    echo Starting from current directory:
+    echo Current directory:
     echo on
     dir
-    cd ..\..\
-    dir
-    cd 2\s
-    dir
     echo off
-    echo (hardcoded location at the moment)
     npm run test
   displayName: 'npm run test'
