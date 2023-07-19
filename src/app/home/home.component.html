@@ -3,12 +3,7 @@
 </header>
 <body>
     <section>
-        <p>File:</p>
-        <button>Select file</button>
-    </section>
-    <section>
-        <p>Original</p>
-        <p>Translation</p>
+        <app-translation *ngFor="let translation of translations" [translation]="translation"></app-translation>
     </section>
     <section>
         <button class="supportbutton">Copy</button>
