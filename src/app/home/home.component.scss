@@ -1,5 +1,6 @@
 /* Define standard variables and values for website */
 
+$font: Helvetica, sans-serif;
 $textcolor: rgb(73, 73, 75);
 $headerbgcolor: rgb(248, 248, 248);
 $bodybgcolor: rgb(248, 248, 248);
@@ -8,6 +9,7 @@ $headerfontsize: 22px;
 
 /* Use the variables */
 body {
+  font: 100% $font;
   margin: 30;
   padding: 30;
   background-color: $bodybgcolor;
@@ -16,9 +18,10 @@ body {
 }
 
 header {
-    background-color: $headerbgcolor;
-    font-size: $headerfontsize;
-    color: $textcolor;
+  font: 100% $font;
+  background-color: $headerbgcolor;
+  font-size: $headerfontsize;
+  color: $textcolor;
 }
 
 .supportbutton {

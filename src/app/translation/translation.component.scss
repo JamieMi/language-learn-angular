@@ -1,0 +1,18 @@
+$font-list: Helvetica, sans-serif;
+
+body {
+ font: 100% $font-list;
+}
+
+div {
+    padding: 3px;
+    background-color: bisque;
+    margin:7px;
+}
+
+.source {
+}
+
+.translation {
+    color: chocolate;
+}
