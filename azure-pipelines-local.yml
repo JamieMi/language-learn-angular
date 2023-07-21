@@ -35,14 +35,3 @@ steps:
 - script: |
     npm install --save-dev @types/jest jest-preset-angular
   displayName: 'npm jest preset angular installation'
-
-# (npm@1 task doesn't find the working directory yet, even with $(Build.SourcesDirectory) specified)
-# ... so using a script directly:
-- script: |
-    echo (script doesn't find the working directory by itself)
-    echo Current directory:
-    echo on
-    dir
-    echo off
-    npm run test
-  displayName: 'npm run test'

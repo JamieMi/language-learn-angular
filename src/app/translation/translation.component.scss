@@ -6,11 +6,12 @@ body {
 
 div {
     padding: 3px;
-    background-color: bisque;
+    background-color: blanchedalmond;
     margin:7px;
 }
 
-.source {
+.item:hover{
+    background-color:bisque;
 }
 
 .translation {
