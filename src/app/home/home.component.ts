@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Translation } from '../translation';
 import { TranslationComponent } from '../translation/translation.component';
 import { TestComponent } from '../test/test.component';
-
-
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -15,7 +13,7 @@ import { TestComponent } from '../test/test.component';
 export class HomeComponent {
   translationList?: TranslationComponent[];
   displayTestTools:boolean = false;
-  
+
   translations : Translation[] = [
     {
       sourcePhrase:"No, I want to play it safe / rather be safe than sorry",
