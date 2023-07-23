@@ -1,0 +1,21 @@
+.menubar{
+   margin-left: 10px;
+}
+
+.button{
+    background-color:lightgrey;
+    padding: 10px;
+    border-radius:7px;
+    margin: 4px;
+    border: 0;
+}
+
+.button:hover{
+    background-color: lightblue;
+}
+
+.tooltip{
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}

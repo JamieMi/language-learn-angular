@@ -2,17 +2,19 @@ import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Translation } from '../translation';
 import { TranslationComponent } from '../translation/translation.component';
+import { TestComponent } from '../test/test.component';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, TranslationComponent],
+  imports: [CommonModule, TranslationComponent, TestComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
   translationList?: TranslationComponent[];
+  displayTestTools:boolean = false;
   
   translations : Translation[] = [
     {
