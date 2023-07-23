@@ -1,5 +1,13 @@
-<div class="item">
-    <div class="source">{{translation.sourcePhrase}}</div>
+<div class="item" (mouseover)="setFocus(true);" (mouseleave)="setFocus(false);">
+    <div style="height:20px" class="source">
+        <span>{{translation.sourcePhrase}}</span>
+        <span *ngIf="focus">
+            <button>Edit</button>
+            <button>Delete</button>
+        </span>
+    </div>
     <div class="translation">{{translation.translatedPhrase}}</div>
 </div>
+
+
 

@@ -5,15 +5,15 @@ body {
 }
 
 div {
-    padding: 3px;
-    background-color: blanchedalmond;
+    padding: 4px;
+    background-color: rgb(250, 242, 231);
     margin:7px;
-}
-
-.item:hover{
-    background-color:bisque;
 }
 
 .translation {
     color: chocolate;
+}
+
+button {
+    margin-left:6px;
 }

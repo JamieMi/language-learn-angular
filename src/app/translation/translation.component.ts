@@ -11,4 +11,8 @@ import { Translation } from '../translation';
 })
 export class TranslationComponent {
   @Input() translation!: Translation;
+  @Input() focus:boolean=false;
+  setFocus(setF:boolean){
+    this.focus = setF;
+  };
 }
