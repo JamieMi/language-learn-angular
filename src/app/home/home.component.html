@@ -3,6 +3,17 @@
 </header>
 <body>
     <section>
+        <span>
+            <button class="maxmincontrol" (click)="displayTestTools =!displayTestTools">
+                <p *ngIf="!displayTestTools; else elseBlock">Show test tools</p>
+                <ng-template #elseBlock>
+                    <p>&lt;&lt;</p>
+                </ng-template>
+            </button>
+            <app-test *ngIf="displayTestTools"></app-test>
+        </span>
+    </section>
+    <section>
         <app-translation *ngFor="let translation of translations" [translation]="translation"></app-translation>
     </section>
     <section>
