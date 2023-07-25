@@ -2,12 +2,9 @@
     <div style="height:20px" class="source">
         <span>{{translation.sourcePhrase}}</span>
         <span *ngIf="focus">
-            <button>Edit</button>
+            <button (click)="openEditDialog()">Edit</button>
             <button>Delete</button>
         </span>
     </div>
     <div class="translation">{{translation.translatedPhrase}}</div>
 </div>
-
-
-
