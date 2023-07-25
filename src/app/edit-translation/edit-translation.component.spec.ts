@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { EditTranslationComponent } from './edit-translation.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 describe('EditTranslationComponent', () => {
   let component: EditTranslationComponent;
@@ -8,7 +8,11 @@ describe('EditTranslationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [EditTranslationComponent]
+      imports: [EditTranslationComponent],
+      providers : [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: [] },
+      ]
     });
     fixture = TestBed.createComponent(EditTranslationComponent);
     component = fixture.componentInstance;

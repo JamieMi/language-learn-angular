@@ -12,6 +12,15 @@ import { EditTranslationComponent } from '../edit-translation/edit-translation.c
   styleUrls: ['./translation.component.scss']
 })
 export class TranslationComponent {
+  
+  @Input() translation: Translation = {
+    sourcePhrase:'',
+    translatedPhrase:'',
+    createdTime:new Date(),
+    testTime:[]
+  };
+  @Input() focus:boolean=false;
+  
   constructor(private dialog: MatDialog) {}
 
   openEditDialog() {
@@ -20,28 +29,17 @@ export class TranslationComponent {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    alert(this.translation.sourcePhrase);
     dialogConfig.data = {
       id: 1,
-      title: 'Add translation',
-      data       :this.translation.sourcePhrase
-      // TO DO: nothing gets passed over
-      /*{
-        translation : {   
-          sourcePhrase: this.translation.sourcePhrase,
-          translatedPhrase: this.translation.translatedPhrase,
-          createdTime: this.translation.createdTime,
-          testTime: []
-        }
-      },*/
-    };
+      title: 'Edit translation',
+      data: this.translation
+    }
 
-    this.dialog.open(EditTranslationComponent, dialogConfig);    
-  }
+    this.dialog.open(EditTranslationComponent,
+      dialogConfig.data
+    )
+  };
 
-  @Input() translation!: Translation;
-  @Input() focus:boolean=false;
-  
   setFocus(setF:boolean){
     this.focus = setF;
   };

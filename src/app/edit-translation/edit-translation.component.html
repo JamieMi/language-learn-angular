@@ -1,7 +1,41 @@
-<p>Add translation</p>
+<!--h2 mat-dialog-title>Edit translation (deprecated)</h2>
 <div>
     Source: <input type="text" [formControl]="sourceTextControl">
 </div>
 <div> 
     Translaton: <input type="text" [formControl]="translatedTextControl">
+</div-->
+
+
+
+<div class="edit-form">
+    <h2 mat-dialog-title>Edit translation</h2>
+    <mat-dialog-content [formGroup]="form">
+        <mat-form-field>
+            <input matInput
+                placeholder="Source text"
+                formControlName="sourceTextControl">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput
+                placeholder="Translation text"
+                formControlName="translatedTextControl">
+        </mat-form-field>
+
+        <!--mat-form-field>
+            <input matInput [matDatepicker]="myDatepicker"
+                   formControlName="releasedAt">
+            <mat-datepicker-toggle matSuffix
+                                   [for]="myDatepicker">
+            </mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker></mat-datepicker>
+        </mat-form-field-->
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button mat-raised-button (click)="close()">Close</button>
+        <button mat-raised-button color="primary" (click)="save()">Save</button>
+    </mat-dialog-actions>
+
 </div>
