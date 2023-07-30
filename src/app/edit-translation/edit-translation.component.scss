@@ -1,3 +1,16 @@
 div{
     margin: 5px;
 }
+
+.edit-form {
+    min-width: 600px;
+}
+
+mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.phrase{
+    width:100%;
+}

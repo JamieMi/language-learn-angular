@@ -35,10 +35,19 @@ export class TranslationComponent {
       data: this.translation
     }
 
-    this.dialog.open(EditTranslationComponent,
+    const dialogRef = this.dialog.open(EditTranslationComponent,
       dialogConfig.data
     )
+
+    dialogRef.afterClosed().subscribe(
+      data => this.update(data/*console.log("Dialog output:", data*/)
+    );    
   };
+
+  update(data:any){
+    this.translation.sourcePhrase = data.sourcePhraseControl;
+    this.translation.translatedPhrase = data.translatedPhraseControl;
+  }
 
   setFocus(setF:boolean){
     this.focus = setF;

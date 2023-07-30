@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogConfig, MatDialogActions, MatDialogModule } from "@angular/material/dialog";
 import { Translation } from '../translation';
 
@@ -11,36 +11,39 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
   selector: 'app-edit-translation',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatDialogModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogModule],
   templateUrl: './edit-translation.component.html',
   styleUrls: ['./edit-translation.component.scss']
 })
 
 export class EditTranslationComponent implements OnInit{
-  
-  form!: FormGroup;
-  //description!:string;
-  // For an ordinary component:
-  sourceTextControl = new FormControl('');
-  translatedTextControl = new FormControl('');
-  
+  sourcePhrase!:string;
+  translatedPhrase!:string;
+
+  form = new FormGroup({
+    sourcePhraseControl: new FormControl(''),
+    translatedPhraseControl: new FormControl('')
+  });
+
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EditTranslationComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any
+    @Inject(MAT_DIALOG_DATA) data: Translation,
+    private dialogRef: MatDialogRef<EditTranslationComponent>
   ){
-    //this.description = data.description;
-    this.sourceTextControl.setValue(data.sourcePhrase);
-    this.translatedTextControl.setValue(data.translatedPhrase);
+    this.sourcePhrase = data.sourcePhrase;
+    this.translatedPhrase = data.translatedPhrase;
   }
  
-  // Doesn't appear to be a point to this yet.
   ngOnInit() {
-    this.form = this.fb.group({
-       // description: [this.description, []]
-    });
-  }
+    this.form.setValue({
+      sourcePhraseControl: this.sourcePhrase,
+      translatedPhraseControl: this.translatedPhrase,
+    }
+    // obscure fact the tutorials hide from you: setValue must update everything, not just part of the form
+    );
 
+  }
+  
   save() {
     this.dialogRef.close(this.form.value);
   }
