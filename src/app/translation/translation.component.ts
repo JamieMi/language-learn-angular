@@ -4,15 +4,21 @@ import { Translation } from '../translation';
 import { MatDialog, MatDialogConfig, MatDialogModule } from "@angular/material/dialog";
 import { EditTranslationComponent } from '../edit-translation/edit-translation.component';
 
+enum OpenMode {
+  ADD,
+  EDIT
+};
+
 @Component({
   selector: 'app-translation',
   standalone: true,
   imports: [CommonModule, MatDialogModule],
   templateUrl: './translation.component.html',
-  styleUrls: ['./translation.component.scss']
+  styleUrls: ['./translation.component.scss'],
 })
 export class TranslationComponent {
   
+
   @Input() translation: Translation = {
     sourcePhrase:'',
     translatedPhrase:'',
@@ -21,32 +27,54 @@ export class TranslationComponent {
   };
   @Input() focus:boolean=false;
   
-  constructor(private dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {}
 
   openEditDialog() {
+    this.openDialogAsEdit( true );
+  }
+
+  openAddDialog(){
+    this.openDialogAsEdit( false );
+  }
+
+  // Takes a boolean, because workarounds for scope limitations of enums in JS are just too ugly.
+  openDialogAsEdit(openEdit : boolean ) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    dialogConfig.data = {
-      id: 1,
-      title: 'Edit translation',
-      data: this.translation
+    if (openEdit){ // Edit dialog 
+      dialogConfig.data = {
+        //id: 1,
+        title: 'Edit translation',
+        data: this.translation
+      }
+    } else { // Add dialog
+      dialogConfig.data = {
+//        id: 1,
+        title: 'Add translation',
+        data: this.translation
+      }
     }
 
-    const dialogRef = this.dialog.open(EditTranslationComponent,
-      dialogConfig.data
+    const dialogRef = this.dialog.open(EditTranslationComponent, dialogConfig.data
     )
 
     dialogRef.afterClosed().subscribe(
-      data => this.update(data/*console.log("Dialog output:", data*/)
+      data => (this.update(openEdit, data))
     );    
   };
 
-  update(data:any){
-    this.translation.sourcePhrase = data.sourcePhraseControl;
-    this.translation.translatedPhrase = data.translatedPhraseControl;
+  update ( editing: boolean , data:any){
+    if (data != undefined) // i.e. Save, not Close
+    {
+      if (editing)
+      {
+        this.translation.sourcePhrase = data.sourcePhraseControl;
+        this.translation.translatedPhrase = data.translatedPhraseControl;
+      }
+    }
   }
 
   setFocus(setF:boolean){

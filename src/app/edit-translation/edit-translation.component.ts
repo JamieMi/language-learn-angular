@@ -35,11 +35,10 @@ export class EditTranslationComponent implements OnInit{
   }
  
   ngOnInit() {
-    this.form.setValue({
+    this.form.patchValue({
       sourcePhraseControl: this.sourcePhrase,
       translatedPhraseControl: this.translatedPhrase,
     }
-    // obscure fact the tutorials hide from you: setValue must update everything, not just part of the form
     );
 
   }
