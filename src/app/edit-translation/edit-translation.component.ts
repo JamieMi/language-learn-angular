@@ -40,7 +40,6 @@ export class EditTranslationComponent implements OnInit{
       translatedPhraseControl: this.translatedPhrase,
     }
     );
-
   }
   
   save() {

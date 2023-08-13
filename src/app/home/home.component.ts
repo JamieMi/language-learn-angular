@@ -1,8 +1,10 @@
 import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Translation } from '../translation';
+
 import { TranslationComponent } from '../translation/translation.component';
 import { TestComponent } from '../test/test.component';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -58,9 +60,24 @@ export class HomeComponent {
       translatedPhrase:"Ich werfe Papierflieger auf wen ich will",
     }
   ];
+  
+  onAddTranslation(newTranslation:any){
+    console.log("home component receives emit");
+    
+    let translation = new Translation();
+
+    translation.createdTime = new Date();
+    translation.testTime = [];
+    translation.sourcePhrase = newTranslation.sourcePhraseControl;
+    translation.translatedPhrase = newTranslation.translatedPhraseControl;
+    console.log(translation);
+
+    this.translations.push(translation);
+  }
 
   throwError() {
     throw new Error('an error has been invoked');
   }
 
 }
+
