@@ -58,8 +58,7 @@ export class TranslationComponent {
       }
     }
 
-    const dialogRef = this.dialog.open(EditTranslationComponent, dialogConfig.data
-    )
+    const dialogRef = this.dialog.open(EditTranslationComponent, dialogConfig.data)
 
     dialogRef.afterClosed().subscribe(
       data => (this.update(openEdit, data))

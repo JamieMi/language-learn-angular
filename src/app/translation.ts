@@ -1,6 +1,6 @@
-export interface Translation{
-    sourcePhrase: string;
-    translatedPhrase: string;
+export class Translation{
+    sourcePhrase: string = "";
+    translatedPhrase= "";
     createdTime?: Date;
     testTime?: Date[];
 }
