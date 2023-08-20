@@ -2,16 +2,15 @@
     <p>Language Learn</p>
 </header>
 <body>
-    <app-test (addTranslationEvent)="onAddTranslation($event)"></app-test>
     <section>
         <span>
             <button class="maxmincontrol" (click)="displayTestTools =!displayTestTools">
-                <p *ngIf="!displayTestTools; else elseBlock">Show test tools</p>
+                <p class="expand" *ngIf="!displayTestTools; else elseBlock">Show test tools</p>
                 <ng-template #elseBlock>
-                    <p>&lt;&lt;</p>
+                    <p class="expand">&lt;&lt;</p>
                 </ng-template>
             </button>
-            <app-test *ngIf="displayTestTools"></app-test>
+            <app-test (addTranslationEvent)="onAddTranslation($event)" *ngIf="displayTestTools"></app-test>
         </span>
     </section>
     <section>

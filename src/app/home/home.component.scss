@@ -24,6 +24,11 @@ header {
   color: $textcolor;
 }
 
+.expand {
+  min-width: 45px;
+  text-align: center;
+}
+
 .supportbutton {
     display:inline-block;
     font-size:14px;
@@ -45,3 +50,4 @@ header {
 app-test{
   margin-left:10px;
 }
+
