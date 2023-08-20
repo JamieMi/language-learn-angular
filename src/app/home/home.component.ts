@@ -1,7 +1,6 @@
 import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Translation } from '../translation';
-
 import { TranslationComponent } from '../translation/translation.component';
 import { TestComponent } from '../test/test.component';
 
@@ -13,6 +12,7 @@ import { TestComponent } from '../test/test.component';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+
   translationList?: TranslationComponent[];
   displayTestTools:boolean = false;
 
