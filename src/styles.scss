@@ -1,4 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+button{
+    background-color:lightgrey;
+    padding: 10px;
+    border-radius:7px;
+    margin: 4px;
+    border: 0;
+    min-width:80px;
+}
+
+.disabledbutton{
+    background-color:rgb(241, 241, 241);
+    color:rgb(143, 132, 132);
+    padding: 10px;
+    border-radius:7px;
+    margin: 4px;
+    border: 0;
+}
+
+.button:hover{
+    background-color: lightblue;
+}
+
+
+
