@@ -1,0 +1,17 @@
+<div class="edit-form">
+    <h2 mat-dialog-title>Confirm</h2>
+    <mat-dialog-content [formGroup]="form">
+    <div mat-dialog-content class="phrase">Do you want to delete this translation?</div>
+    <ul></ul>
+    <div class="translationcard">
+        <div class="sourcetext">{{sourcePhrase}}</div>
+        <div class="translatedtext">{{translatedPhrase}}</div>
+    </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button mat-raised-button color="primary" (click)="yes()">Yes</button>
+        <button mat-raised-button (click)="no()">No</button>
+    </mat-dialog-actions>
+
+</div>

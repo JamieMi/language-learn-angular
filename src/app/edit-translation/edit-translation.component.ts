@@ -26,7 +26,7 @@ export class EditTranslationComponent implements OnInit{
   });
 
   constructor(
-    private fb: FormBuilder,
+    /*private fb: FormBuilder,*/
     @Inject(MAT_DIALOG_DATA) data: Translation,
     private dialogRef: MatDialogRef<EditTranslationComponent>
   ){

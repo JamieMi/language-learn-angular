@@ -14,7 +14,7 @@ import { EditTranslationComponent } from '../edit-translation/edit-translation.c
 export class TestComponent {
 
   
-  @Output() addTranslationEvent = new EventEmitter<Translation>();
+  @Output() additionTranslationEvent = new EventEmitter<Translation>();
   
   constructor(public dialog: MatDialog) {}
 
@@ -55,8 +55,7 @@ export class TestComponent {
   };
 
   update(data:Translation){
-    console.log("got result");
     console.log(data);
-    this.addTranslationEvent.emit(data);
+    this.additionTranslationEvent.emit(data);
   }
 }
