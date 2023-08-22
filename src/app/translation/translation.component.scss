@@ -4,19 +4,10 @@ body {
  font: 100% $font-list;
 }
 
-div {
-    padding: 4px;
-    background-color: rgb(250, 242, 231);
-    margin:7px;
-}
-
-.translation {
-    color: chocolate;
-}
-
 button {
     margin-left:6px;
     padding: 0px;
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     min-width:60px;
 }
+

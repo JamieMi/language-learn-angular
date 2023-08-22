@@ -62,17 +62,23 @@ export class HomeComponent {
   ];
   
   onAddTranslation(newTranslation:any){
-    console.log("home component receives emit");
+    if (newTranslation != undefined){
+
+      let translation = new Translation();
+
+      translation.createdTime = new Date();
+      translation.testTime = [];
+      translation.sourcePhrase = newTranslation.sourcePhraseControl;
+      translation.translatedPhrase = newTranslation.translatedPhraseControl;
+      this.translations.push(translation);
+    }
+  }
+
+  onDeleteTranslation(newTranslation:any){
+    this.translations.forEach( (item, index) => {
+      if(item === newTranslation) this.translations.splice(index,1);
+    });
     
-    let translation = new Translation();
-
-    translation.createdTime = new Date();
-    translation.testTime = [];
-    translation.sourcePhrase = newTranslation.sourcePhraseControl;
-    translation.translatedPhrase = newTranslation.translatedPhraseControl;
-    console.log(translation);
-
-    this.translations.push(translation);
   }
 
   throwError() {

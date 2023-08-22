@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Translation } from '../translation';
 import { MatDialog, MatDialogConfig, MatDialogModule } from "@angular/material/dialog";
 import { EditTranslationComponent } from '../edit-translation/edit-translation.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 enum OpenMode {
   ADD,
@@ -17,8 +18,6 @@ enum OpenMode {
   styleUrls: ['./translation.component.scss'],
 })
 export class TranslationComponent {
-  
-
   @Input() translation: Translation = {
     sourcePhrase:'',
     translatedPhrase:'',
@@ -26,6 +25,8 @@ export class TranslationComponent {
     testTime:[]
   };
   @Input() focus:boolean=false;
+  
+  @Output() deletionTranslationEvent = new EventEmitter<Translation>();
   
   constructor(public dialog: MatDialog) {}
 
@@ -64,6 +65,31 @@ export class TranslationComponent {
       data => (this.update(openEdit, data))
     );    
   };
+
+  openDeleteDialog(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      title: 'Delete translation',
+      data: this.translation
+    }
+  
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, dialogConfig.data)
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.deleteTranslation(this.translation);
+      }
+    });
+  }
+
+  deleteTranslation(translation: Translation){
+    this.deletionTranslationEvent.emit(translation);
+  }
 
   update ( editing: boolean , data:any){
     if (data != undefined) // i.e. Save, not Close

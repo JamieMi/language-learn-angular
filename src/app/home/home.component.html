@@ -10,11 +10,11 @@
                     <p class="expand">&lt;&lt;</p>
                 </ng-template>
             </button>
-            <app-test (addTranslationEvent)="onAddTranslation($event)" *ngIf="displayTestTools"></app-test>
+            <app-test (additionTranslationEvent)="onAddTranslation($event)" *ngIf="displayTestTools"></app-test>
         </span>
     </section>
     <section>
-        <app-translation *ngFor="let translation of translations" [translation]="translation"></app-translation>
+        <app-translation *ngFor="let translation of translations" [translation]="translation" (deletionTranslationEvent)="onDeleteTranslation($event)" ></app-translation>
     </section>
     <section>
         <button type="button" class="supportbutton">Copy</button>
