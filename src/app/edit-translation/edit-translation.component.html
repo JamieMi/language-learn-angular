@@ -1,8 +1,9 @@
 <div class="edit-form">
     <h2 mat-dialog-title>Edit translation</h2>
     
-    <mat-dialog-content [formGroup]="form"  class="translationcard">
-    <div>
+    <mat-dialog-content [formGroup]="form"  class="translationcard inputfield">
+    <div></div>
+    <div class="inputfield">
         <mat-form-field class="phrase">
             <input matInput
                 placeholder="Source text"
@@ -16,14 +17,13 @@
                 formControlName="translatedPhraseControl">
         </mat-form-field>
     </div>
-        <!--mat-form-field>
-            <input matInput [matDatepicker]="myDatepicker"
-                   formControlName="releasedAt">
-            <mat-datepicker-toggle matSuffix
-                                   [for]="myDatepicker">
-            </mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker></mat-datepicker>
-        </mat-form-field-->
+        <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
     </mat-dialog-content>
 
     <mat-dialog-actions>

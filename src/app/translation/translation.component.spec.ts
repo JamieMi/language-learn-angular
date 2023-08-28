@@ -37,9 +37,9 @@ describe('TranslationComponent', () => {
 
   it('test focus change', () => {
     component.setFocus(false);
-    expect(component.focus).toBe(false);
+    expect(component.translationfocus).toBe(false);
     component.setFocus(true);
-    expect(component.focus).toBe(true);
+    expect(component.translationfocus).toBe(true);
     // assumes expected interaction with DOM though
   });
 

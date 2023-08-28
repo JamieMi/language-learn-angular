@@ -5,6 +5,9 @@ import { MatDialog, MatDialogConfig, MatDialogModule } from "@angular/material/d
 import { EditTranslationComponent } from '../edit-translation/edit-translation.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatDatepickerModule } from '@angular/material/datepicker';
+
 enum OpenMode {
   ADD,
   EDIT
@@ -13,7 +16,7 @@ enum OpenMode {
 @Component({
   selector: 'app-translation',
   standalone: true,
-  imports: [CommonModule, MatDialogModule],
+  imports: [CommonModule, MatDialogModule, MatFormFieldModule, MatDatepickerModule],
   templateUrl: './translation.component.html',
   styleUrls: ['./translation.component.scss'],
 })
@@ -24,7 +27,7 @@ export class TranslationComponent {
     createdTime:new Date(),
     testTime:[]
   };
-  @Input() focus:boolean=false;
+  @Input() translationfocus:boolean=false;
   
   @Output() deletionTranslationEvent = new EventEmitter<Translation>();
   
@@ -102,7 +105,11 @@ export class TranslationComponent {
     }
   }
 
+  editCreationDate(){
+
+  }
+
   setFocus(setF:boolean){
-    this.focus = setF;
+    this.translationfocus = setF;
   };
 }
