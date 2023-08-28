@@ -1,10 +1,15 @@
 <div class="translationcard" (mouseover)="setFocus(true);" (mouseleave)="setFocus(false);">
     <div style="height:20px" class="source">
         <span  class="sourcetext">{{translation.sourcePhrase}}</span>
-        <span *ngIf="focus">
+        <span *ngIf="translationfocus">
             <button (click)="openEditDialog()">Edit</button>
             <button (click)="openDeleteDialog()">Delete</button>
         </span>
     </div>
-    <div class="translatedtext">{{translation.translatedPhrase}}</div>
+    <div style="height:20px">
+        <span class="translatedtext">{{translation.translatedPhrase}}</span>
+        <span *ngIf="translationfocus">
+            
+        </span>
+    </div>
 </div>
