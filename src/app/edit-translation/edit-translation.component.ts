@@ -6,12 +6,22 @@ import { Translation } from '../translation';
 
 import {MatInputModule } from "@angular/material/input";
 import { Inject } from '@angular/core';
+import {MatDatepickerModule } from '@angular/material/datepicker';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
+
+import {MatNativeDateModule} from '@angular/material/core';
+import { HttpClientModule } from '@angular/common/http';// probably not necessary
+//import {MatMomentDateModule} from '@angular/material-moment-adapter';
+
+
+
 
 @Component({
   selector: 'app-edit-translation',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogModule],
+  imports: [HttpClientModule, CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatDatepickerModule, MatNativeDateModule],
+  providers: [MatDatepickerModule],
   templateUrl: './edit-translation.component.html',
   styleUrls: ['./edit-translation.component.scss']
 })
