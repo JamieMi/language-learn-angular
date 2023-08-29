@@ -19,11 +19,27 @@
     </div>
         <mat-form-field>
             <mat-label>Choose a date</mat-label>
-            <input matInput [matDatepicker]="picker">
+            <input #minmaxInput matInput
+                #resultPickerModel="ngModel"
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="date"
+                [matDatepicker]="minmaxvalidation"
+                [min]="minDate" 
+                [max]="maxDate">
             <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker-toggle matSuffix [for]="minmaxvalidation"></mat-datepicker-toggle>
+            <mat-datepicker #basicDatepicker #minmaxvalidation [startAt]="date"></mat-datepicker>
+            <mat-error *ngIf="resultPickerModel.hasError('matDatepickerParse')">
+                "{{resultPickerModel.getError('matDatepickerParse').text}}"
+                 is not a valid date!
+              </mat-error>
+              <mat-error *ngIf="resultPickerModel.hasError('matDatepickerMin')">
+                Minimum date should be {{maxDate | date }}</mat-error>
+              <mat-error *ngIf="resultPickerModel.hasError('matDatepickerMax')">
+                Maximum date should be {{maxDate | date }}
+            </mat-error>
         </mat-form-field>
+    
     </mat-dialog-content>
 
     <mat-dialog-actions>

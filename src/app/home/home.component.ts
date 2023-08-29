@@ -75,10 +75,10 @@ export class HomeComponent {
 
       let translation = new Translation();
 
-      translation.createdTime = new Date();
+      translation.createdTime = newTranslation.createdTime;
       translation.testTime = [];
-      translation.sourcePhrase = newTranslation.sourcePhraseControl;
-      translation.translatedPhrase = newTranslation.translatedPhraseControl;
+      translation.sourcePhrase = newTranslation.sourcePhrase;
+      translation.translatedPhrase = newTranslation.translatedPhrase;
       this.translations.push(translation);
     }
   }
@@ -87,12 +87,10 @@ export class HomeComponent {
     this.translations.forEach( (item, index) => {
       if(item === newTranslation) this.translations.splice(index,1);
     });
-    
   }
 
   throwError() {
     throw new Error('an error has been invoked');
   }
-
 }
 
