@@ -99,8 +99,11 @@ export class TranslationComponent {
     {
       if (editing)
       {
-        this.translation.sourcePhrase = data.sourcePhraseControl;
-        this.translation.translatedPhrase = data.translatedPhraseControl;
+        this.translation = data;
+        console.log(data.sourcePhrase);
+        console.log(this.translation.sourcePhrase);
+        console.log(data.createdTime);
+        console.log(this.translation.createdTime);
       }
     }
   }
