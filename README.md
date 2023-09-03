@@ -1,6 +1,37 @@
+![Alt text](screenshot.png)
+
 # LanguageLearn
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.3.
+
+This is a project to practice and consolidate Angular development, including **Angular Materials**, and the **Jest** framework.
+It reimagines a previous application, LanguageLearn, that I wrote in C++ for my own desktop Windows environment and occasionally ported for newer versions of Visual Studio. This new application will be simplified however. The original idea was to create a spaced repetition system that tracked the user's success in recalling phrases translating between English and German and offered them more frequently if the user was having trouble with them.
+
+I still use the original system every day, using a database of 33000 words and phrases I've built up over the years. Much of the original functionality turned out to be superfluous though, and I use it in a simpler way than I originally envisaged. This project reimagines the application more simply, and so that it will no longer be dependent on running on my desktop PC and could be used on the go.
+
+## Learnings from the original system
+
+- It became apparent as the contents of cards became more ambitious that it wasn't appropriate or useful to judge success or failure in recalling individual items any more.
+- A system that offers all due items simultaneously is better than one that offers translations in sequence, because it allows the user to visually go back and forwards between due items to their own satisfaction and reinforce items that need more reinforcing.
+- Metrics of overall success or progress aren't useful, motivational or necessary to me - this isn't Duolingo.
+- The original application never offered editing for phrases, which had to be added or edited in a raw text file where they were stored.
+
+## To do
+
+I expect to extend the current state of the project in the following ways:
+- extend the coverage in Jest - in particular in testing Angular Materials
+- add the functionality to show only the due items, which is the key to it being useable for my own personal use.
+- create a C# .NET back end, possibly first with local file access for the database, and then a proper web back end.
+
+## Install other necessary components
+
+`npm i jest @types/jest jest-preset-angular`
+
+`ng add @angular/material`
+
+`npm i @angular/material-moment-adapter`
+
+`npm i moment`
 
 ## Development server
 
