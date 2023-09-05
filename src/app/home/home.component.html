@@ -14,7 +14,7 @@
         </span>
     </section>
     <section>
-        <app-translation *ngFor="let translation of translations" [translation]="translation" (deletionTranslationEvent)="onDeleteTranslation($event)" ></app-translation>
+        <app-translation *ngFor="let translation of translations" [translation]="translation" (deletionTranslationEvent)="onDeleteTranslation($event)"></app-translation>
     </section>
     <section>
         <button type="button" class="supportbutton">Copy</button>
