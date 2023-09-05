@@ -1,6 +1,6 @@
 export class Translation{
     sourcePhrase: string = "";
     translatedPhrase= "";
-    createdTime?: Date;
+    createdTime!:Date;
     testTime?: Date[];
 }
