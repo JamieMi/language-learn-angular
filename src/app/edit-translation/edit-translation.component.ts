@@ -53,7 +53,7 @@ export class EditTranslationComponent implements OnInit{
   ){
     this.sourcePhrase = data.sourcePhrase;
     this.translatedPhrase = data.translatedPhrase;
-    this.date = data.createdTime!;
+    this.date = data.createdTime;
   }
  
   ngOnInit() {
@@ -69,7 +69,13 @@ export class EditTranslationComponent implements OnInit{
     var modifiedTranslation = new Translation();
     modifiedTranslation.sourcePhrase = this.form.value.sourcePhraseControl!;
     modifiedTranslation.translatedPhrase =this.form.value.translatedPhraseControl!;
-    modifiedTranslation.createdTime = this.date;
+    
+    // Any use of the DatePicker corrupts the date format, whether we save or not.
+    // The Epoch time value is still correct - it just seems to be *$%£ing the type
+    // ... so we have to recreate that...
+    this.date = new Date(this.date);
+
+    modifiedTranslation.createdTime = this.date;    
     this.dialogRef.close(modifiedTranslation);
   }
 
