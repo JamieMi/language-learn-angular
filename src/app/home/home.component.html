@@ -17,6 +17,7 @@
         <app-translation *ngFor="let translation of translations" [translation]="translation" (deletionTranslationEvent)="onDeleteTranslation($event)"></app-translation>
     </section>
     <section>
+        <button type="button" class="supportbutton" (click)="onDone()">Done</button>
         <button type="button" class="supportbutton">Copy</button>
     </section>
 </body>
