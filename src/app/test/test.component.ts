@@ -25,6 +25,7 @@ export class TestComponent {
       setTimeout(() => this._reload = true);
   }
   
+  
   // Takes a boolean, because workarounds for scope limitations of enums in JS are just too ugly.
   openDialog() {
     const dialogConfig = new MatDialogConfig();
@@ -32,9 +33,15 @@ export class TestComponent {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    let translation!: Translation;
-    
+    let translation: Translation = {
+      sourcePhrase:'',
+      translatedPhrase:'',
+      createdTime:new Date(),
+      testTime:[]
+    };
+      
     dialogConfig.data = {
+//        id: 1,
       title: 'Add translation',
       data: translation
     }
