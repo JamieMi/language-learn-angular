@@ -15,61 +15,66 @@ export class HomeComponent {
 
   translationList?: TranslationComponent[];
   displayTestTools:boolean = false;
+  translations: Translation[] = [];
 
-  translations : Translation[] = [
-    {
-      sourcePhrase:"No, I want to play it safe / rather be safe than sorry",
-      translatedPhrase:"Nein, ich gehe auf Nummer sicher",
-      createdTime: new Date(),
-      testTime: []
-    },
-    {
-      sourcePhrase:"supernatural",
-      translatedPhrase:"übernatürlich",
-      createdTime: new Date(),
-    },
-    {
-      sourcePhrase:"to level, flatten",
-      translatedPhrase:"ebnen",
-      createdTime: new Date(),
-    },
-    {
-      sourcePhrase:"Don't bother",
-      translatedPhrase:"Lass es",
-      createdTime: new Date(),
-    },
-    {
-      sourcePhrase:"I know from empirical view/observations/contemplation",
-      translatedPhrase:"Ich weiß aus empirischer Anschauung",
-      createdTime: new Date(),
-    },
-    {
-      sourcePhrase:"to be on the verge, on the brink, about to",
-      translatedPhrase:"stehen kurz vor",
-      createdTime: new Date(),
-    },
-    {
-      sourcePhrase:"Nothing I had seen of her so far was able to nourish the illusion that the sacred fire of poetry blazed in her",
-      translatedPhrase:"Nichts, was ich bisher von ihr gesehen hatte, vermochte die Illusion zu nähren, in ihr lodere das heilige Feuer der Dichtkunst",
-      createdTime: new Date(),
-    },
-    {
-      sourcePhrase:"to disarm",
-      translatedPhrase:"entwaffnen",
-      createdTime: new Date(),
-    },
-    {
-      sourcePhrase:"- How you doing? - Still trapped on the surface of a sphere.",
-      translatedPhrase:"- Wie geht's? - Auf der Oberfläche einer Kugel gefangen",
-      createdTime: new Date(),
-    },
-    {
-      sourcePhrase:"I'll throw paper planes at whoever I please",
-      translatedPhrase:"Ich werfe Papierflieger auf wen ich will",
-      createdTime: new Date(),
-    }
-  ];
-  
+  constructor() {
+
+    var phrases = [
+      {
+        sourcePhrase:"No, I want to play it safe / rather be safe than sorry",
+        translatedPhrase:"Nein, ich gehe auf Nummer sicher"
+      },
+      {
+        sourcePhrase:"supernatural",
+        translatedPhrase:"übernatürlich"
+      },
+      {
+        sourcePhrase:"to level, flatten",
+        translatedPhrase:"ebnen"
+      },
+      {
+        sourcePhrase:"Don't bother",
+        translatedPhrase:"Lass es"
+      },
+      {
+        sourcePhrase:"I know from empirical view/observations/contemplation",
+        translatedPhrase:"Ich weiß aus empirischer Anschauung"
+      },
+      {
+        sourcePhrase:"to be on the verge, on the brink, about to",
+        translatedPhrase:"stehen kurz vor"
+      },
+      {
+        sourcePhrase:"Nothing I had seen of her so far was able to nourish the illusion that the sacred fire of poetry blazed in her",
+        translatedPhrase:"Nichts, was ich bisher von ihr gesehen hatte, vermochte die Illusion zu nähren, in ihr lodere das heilige Feuer der Dichtkunst"
+      },
+      {
+        sourcePhrase:"to disarm",
+        translatedPhrase:"entwaffnen"
+      },
+      {
+        sourcePhrase:"- How you doing? - Still trapped on the surface of a sphere.",
+        translatedPhrase:"- Wie geht's? - Auf der Oberfläche einer Kugel gefangen"
+      },
+      {
+        sourcePhrase:"I'll throw paper planes at whoever I please",
+        translatedPhrase:"Ich werfe Papierflieger auf wen ich will"
+      }
+    ]
+
+    phrases.forEach ((item, index) => {
+      console.log(item.sourcePhrase + " " + item.translatedPhrase);
+      var translation = new Translation();
+      translation.sourcePhrase = item.sourcePhrase;
+      translation.translatedPhrase = item.translatedPhrase;
+      translation.createdTime = new Date();
+      translation.done = false;
+      this.translations.push(translation);
+    });
+
+    console.log(this.translations);
+  }
+
   onAddTranslation(newTranslation:any){
     if (newTranslation != undefined){
 
@@ -81,6 +86,15 @@ export class HomeComponent {
       translation.translatedPhrase = newTranslation.translatedPhrase;
       this.translations.push(translation);
     }
+  }
+
+  onDone(){
+    this.translations.forEach ((item, index) => {
+      if (item.checkDue() == true)
+      {
+        item.done = true;
+      }
+    });
   }
 
   onDeleteTranslation(newTranslation:any){
