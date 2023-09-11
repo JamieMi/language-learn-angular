@@ -51,9 +51,12 @@ export class EditTranslationComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) data: Translation,
     private dialogRef: MatDialogRef<EditTranslationComponent>
   ){
-    this.sourcePhrase = data.sourcePhrase;
-    this.translatedPhrase = data.translatedPhrase;
-    this.date = data.createdTime;
+    if (data != undefined) 
+    {
+      this.sourcePhrase = data.sourcePhrase;
+      this.translatedPhrase = data.translatedPhrase;
+      this.date = data.createdTime;
+    }
   }
  
   ngOnInit() {
