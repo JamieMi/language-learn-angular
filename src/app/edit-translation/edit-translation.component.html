@@ -22,13 +22,13 @@
             <input #minmaxInput matInput
                 #resultPickerModel="ngModel"
                 [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="createdDate"
+                [(ngModel)]="date"
                 [matDatepicker]="minmaxvalidation"
                 [min]="minDate" 
                 [max]="maxDate">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="minmaxvalidation"></mat-datepicker-toggle>
-            <mat-datepicker #basicDatepicker #minmaxvalidation [startAt]="createdDate"></mat-datepicker>
+            <mat-datepicker #basicDatepicker #minmaxvalidation [startAt]="date"></mat-datepicker>
             <mat-error *ngIf="resultPickerModel.hasError('matDatepickerParse')">
                 "{{resultPickerModel.getError('matDatepickerParse').text}}"
                  is not a valid date!

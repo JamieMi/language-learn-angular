@@ -38,8 +38,7 @@ export class EditTranslationComponent implements OnInit{
   sourcePhrase!:string;
   translatedPhrase!:string;
 
-  createdDate = new Date();
-  lastTestedDate = new Date();
+  date = new Date();
   minDate = new Date(2014, 0, 1);
   maxDate = new Date(2030,0,1);
 
@@ -56,8 +55,7 @@ export class EditTranslationComponent implements OnInit{
     {
       this.sourcePhrase = data.sourcePhrase;
       this.translatedPhrase = data.translatedPhrase;
-      this.createdDate = data.createdTime;
-      this.lastTestedDate = data.lastTestedDate;
+      this.date = data.createdTime;
     }
   }
  
@@ -65,7 +63,8 @@ export class EditTranslationComponent implements OnInit{
     this.form.patchValue({
       sourcePhraseControl: this.sourcePhrase,
       translatedPhraseControl: this.translatedPhrase
-    });
+    }
+    );
   }
   
   save() {
@@ -77,10 +76,9 @@ export class EditTranslationComponent implements OnInit{
     // Any use of the DatePicker corrupts the date format, whether we save or not.
     // The Epoch time value is still correct - it just seems to be *$%£ing the type
     // ... so we have to recreate that...
-    this.createdDate = new Date(this.createdDate);
-    this.lastTestedDate = new Date(this.createdDate);
-    modifiedTranslation.createdTime = this.createdDate;    
-    modifiedTranslation.lastTestedDate = this.lastTestedDate;    
+    this.date = new Date(this.date);
+
+    modifiedTranslation.createdTime = this.date;    
     this.dialogRef.close(modifiedTranslation);
   }
 

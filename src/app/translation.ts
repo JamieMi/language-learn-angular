@@ -1,16 +1,15 @@
-import {Time} from './time';
+
   
 export class Translation{
     sourcePhrase: string = "";
     translatedPhrase= "";
     createdTime!:Date;
-    lastTestedDate:Date = new Date(0);
+    testTime?: Date[];
     done?:boolean = false;
 
     public checkDue() : boolean{
         var now = new Date();
 
-        
         const milestones:number[] = [
             1, // 1 day
             2,
@@ -35,42 +34,12 @@ export class Translation{
             ];
             
       var due = false;
-      var lastMilestone = 0;
-
       milestones.forEach ((item, index) => {
-        
-        console.log("Now (",now," >= ",this.createdTime);
-        var milestoneMS = item.valueOf() * Time.MS_PER_DAY;
-        var milestoneTime = this.createdTime.getTime() + milestoneMS;
-        var testedMSSinceCreation = this.lastTestedDate.getTime() - this.createdTime.getTime();
-
-        if (now.getTime() >=  milestoneTime){
-          console.log("last tested: ",this.lastTestedDate);
-          console.log("testedMSSinceCreation:",testedMSSinceCreation," milestoneMS:",milestoneMS)
-
-          if (testedMSSinceCreation < milestoneMS){
-            console.log(item);
-            due = true;
-            lastMilestone = item.valueOf();          
-          };
+        //if (this.now.getDate() >  this.lastTestedDate.getDate()){
+        if (now.getDate() >=  this.createdTime.getDate() - 2){
+          due = true;
         };
       });
       return due;
-    }
-
-    public setCreatedTimeBack(){
-      this.createdTime = new Date(this.createdTime.getTime() - Time.MS_PER_DAY);
-    }
-
-    public setCreatedTimeForward(){
-      this.createdTime = new Date(this.createdTime.getTime() + Time.MS_PER_DAY);
-    }
-
-    public setTestedTimeBack(){
-      this.lastTestedDate = new Date(this.lastTestedDate.getTime() - Time.MS_PER_DAY);
-    }
-
-    public setTestedTimeForward(){
-      this.lastTestedDate = new Date(this.lastTestedDate.getTime() + Time.MS_PER_DAY);
     }
 }
