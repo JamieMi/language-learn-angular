@@ -10,7 +10,12 @@
                     <p class="expand">&lt;&lt;</p>
                 </ng-template>
             </button>
-            <app-test (additionTranslationEvent)="onAddTranslation($event)" *ngIf="displayTestTools"></app-test>
+            <app-test (additionTranslationEvent)="onAddTranslation($event)" 
+            (creationTimeBackEvent)="onCreationTimeBack($event)"
+            (creationTimeForwardEvent)="onCreationTimeForward($event)"
+            (testedTimeBackEvent)="onTestedTimeBack($event)"
+            (testedTimeForwardEvent)="onTestedTimeForward($event)"
+            *ngIf="displayTestTools"></app-test>
         </span>
     </section>
     <section>
