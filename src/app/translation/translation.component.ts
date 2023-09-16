@@ -13,7 +13,6 @@ enum OpenMode {
   EDIT
 };
 
-
 @Component({
   selector: 'app-translation',
   standalone: true,
@@ -24,15 +23,12 @@ enum OpenMode {
 export class TranslationComponent {
   @Input() translation!: Translation;
   @Input() translationfocus:boolean=false;  
-  @Input() due:boolean=false;  
-  
+  @Input() due:boolean=false;    
   @Output() deletionTranslationEvent = new EventEmitter<Translation>();
   
-  lastTestedDate = new Date();
   public done:boolean=false;
 
   constructor(public dialog: MatDialog) {
-    this.lastTestedDate.setDate(this.lastTestedDate.getDate() - 2);
     this.due = true;
   }
 
@@ -108,9 +104,6 @@ export class TranslationComponent {
       }
       this.due = this.translation.checkDue();
     }
-  }
-
-  editCreationDate(){
   }
 
   setFocus(setF:boolean){
