@@ -15,11 +15,7 @@ export class TestComponent {
 
   
   @Output() additionTranslationEvent = new EventEmitter<Translation>();
-  @Output() creationTimeBackEvent = new EventEmitter<any>();
-  @Output() creationTimeForwardEvent = new EventEmitter<any>();
-  @Output() testedTimeBackEvent = new EventEmitter<any>();
-  @Output() testedTimeForwardEvent = new EventEmitter<any>();
-
+  
   constructor(public dialog: MatDialog) {}
 
   public _reload = true;
@@ -54,21 +50,5 @@ export class TestComponent {
   update(data:Translation){
     console.log(data);
     this.additionTranslationEvent.emit(data);
-  }
-
-  creationBack(){
-    this.creationTimeBackEvent.emit(null);
-  }
-
-  creationForward(){
-    this.creationTimeForwardEvent.emit(null);
-  }
-
-  testedBack(){
-    this.testedTimeBackEvent.emit(null);
-  }
-
-  testedForward(){
-    this.testedTimeForwardEvent.emit(null);
   }
 }

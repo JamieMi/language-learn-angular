@@ -27,8 +27,7 @@ describe('TranslationComponent', () => {
       sourcePhrase: testSourcePhrase,
       translatedPhrase: testTranslatedPhrase,
       createdTime:new Date(),
-      lastTestedDate:new Date(0)
-      //testTime:[]
+      testTime:[]
     };
   });
 
