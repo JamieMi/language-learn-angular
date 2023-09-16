@@ -63,7 +63,6 @@ export class HomeComponent {
     ]
 
     phrases.forEach ((item, index) => {
-      console.log(item.sourcePhrase + " " + item.translatedPhrase);
       var translation = new Translation();
       translation.sourcePhrase = item.sourcePhrase;
       translation.translatedPhrase = item.translatedPhrase;
@@ -81,7 +80,7 @@ export class HomeComponent {
       let translation = new Translation();
 
       translation.createdTime = newTranslation.createdTime;
-      translation.testTime = [];
+      translation.lastTestedDate = newTranslation.lastTestedDate;
       translation.sourcePhrase = newTranslation.sourcePhrase;
       translation.translatedPhrase = newTranslation.translatedPhrase;
       this.translations.push(translation);
@@ -90,10 +89,8 @@ export class HomeComponent {
 
   onDone(){
     this.translations.forEach ((item, index) => {
-      if (item.checkDue() == true)
-      {
-        item.done = true;
-      }
+      item.done = true;
+      item.lastTestedDate = new Date();
     });
   }
 
@@ -103,6 +100,33 @@ export class HomeComponent {
     });
   }
 
+  onCreationTimeBack(data:any){
+    this.translations.forEach( (item, index) => {
+      item.setCreatedTimeBack();
+      item.done = !item.checkDue();
+    });
+  }
+
+  onCreationTimeForward(data:any){
+    this.translations.forEach( (item, index) => {
+      item.setCreatedTimeForward();
+      item.done = !item.checkDue();
+    });
+  }
+
+  onTestedTimeBack(data:any){
+    this.translations.forEach( (item, index) => {
+      item.setTestedTimeBack();
+      item.done = !item.checkDue();
+    });
+  }
+
+  onTestedTimeForward(data:any){
+    this.translations.forEach( (item, index) => {
+      item.setTestedTimeForward();
+      item.done = !item.checkDue();
+    });
+  }
   throwError() {
     throw new Error('an error has been invoked');
   }

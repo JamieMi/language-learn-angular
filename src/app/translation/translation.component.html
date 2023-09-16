@@ -1,12 +1,15 @@
-<div *ngIf="due" class="translationcard" (mouseover)="setFocus(true);" (mouseleave)="setFocus(false);">
+<div *ngIf="!translation.done" class="translationcard" (mouseover)="setFocus(true);" (mouseleave)="setFocus(false);">
     <div style="height:20px" class="source">
 
         <span class="sourcetext">{{translation.sourcePhrase}}</span>
         <span *ngIf="translationfocus">
             <button (click)="openEditDialog()">Edit</button>
             <button (click)="openDeleteDialog()">Delete</button>
-            <button (click)="editCreationDate()" class="datetime">Created: {{
+            <button class="datetime">Created: {{
                 translation.createdTime.getDate()+"-"+(translation.createdTime.getMonth()+1)+"-"+translation.createdTime.getFullYear()
+            }}</button>
+            <button class="datetime">Last done: {{
+                (translation.lastTestedDate.getTime() == 0) ? "Untested" : translation.lastTestedDate.getDate()+"-"+(translation.lastTestedDate.getMonth()+1)+"-"+translation.lastTestedDate.getFullYear()
             }}</button>
         </span>
 
