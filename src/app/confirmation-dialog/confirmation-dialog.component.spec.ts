@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfirmationDialogComponent } from './confirmation-dialog.component';
 
 import {HarnessLoader} from '@angular/cdk/testing';
@@ -9,7 +9,7 @@ let fixture: any;
 
 describe('ConfirmationDialogComponentWithComponentHarness', () => {
   beforeEach(async () => {
-    await TestBed.configureTestingModule({/*imports: [MyModule], *//*declarations: [ConfirmationDialogComponent]*/})
+    await TestBed.configureTestingModule({})
         .compileComponents();
     fixture = TestBed.createComponent(ConfirmationDialogComponent);
     let loader = TestbedHarnessEnvironment.loader(fixture);
@@ -24,16 +24,31 @@ describe('ConfirmationDialogComponentWithComponentHarness', () => {
     expect(fixture.componentInstance.confirmed).toBe(true);
   });
 }
+*/
 
-/*
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './confirmation-dialog.component';
+
 describe('ConfirmationDialogComponent', () => {
   let component: ConfirmationDialogComponent;
   let fixture: ComponentFixture<ConfirmationDialogComponent>;
+  let dialogRefMock: { close: jest.Mock };
+
+  beforeEach(async () => {
+    dialogRefMock = { close: jest.fn() };
+
+    await TestBed.configureTestingModule({
+      declarations: [],
+      providers: [
+        { provide: MatDialogRef, useValue: dialogRefMock },
+        { provide: MAT_DIALOG_DATA, useValue: {} }
+      ]
+    })
+    .compileComponents();
+  });
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [ConfirmationDialogComponent]
-    });
     fixture = TestBed.createComponent(ConfirmationDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -42,4 +57,15 @@ describe('ConfirmationDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-}*/);
+
+  it('should close dialog with true when yes is called', () => {
+    component.yes();
+    expect(dialogRefMock.close).toHaveBeenCalledWith(true);
+  });
+
+  it('should close dialog with false when no is called', () => {
+    component.no();
+    expect(dialogRefMock.close).toHaveBeenCalledWith(false);
+  });
+});
+
