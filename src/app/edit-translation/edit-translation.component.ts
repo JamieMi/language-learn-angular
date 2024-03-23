@@ -41,7 +41,7 @@ export class EditTranslationComponent implements OnInit{
   createdDate = new Date();
   lastTestedDate = new Date();
   minDate = new Date(2014, 0, 1);
-  maxDate = new Date(2030,0,1);
+  maxDate = new Date(2030, 0, 1);
 
   form = new FormGroup({
     sourcePhraseControl: new FormControl(''),
@@ -66,6 +66,10 @@ export class EditTranslationComponent implements OnInit{
       sourcePhraseControl: this.sourcePhrase,
       translatedPhraseControl: this.translatedPhrase
     });
+  }
+  
+  get dialogRefValue(): MatDialogRef<EditTranslationComponent> {
+    return this.dialogRef;
   }
   
   save() {

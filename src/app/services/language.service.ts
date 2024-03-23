@@ -103,4 +103,8 @@ export class LanguageService {
       catchError(this.handleError<Translation[]>('searchTranslations', []))
     );
   }
+
+  get translationUrlValue(): string {
+    return this.translationUrl;
+  }
 }
