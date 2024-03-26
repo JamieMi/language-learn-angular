@@ -54,7 +54,7 @@ describe('TranslationComponent', () => {
     openDialogExpects();
   });
 
-  // TO DO: How do we test saving?
+  // TODO: How do we test saving?
 
 // BOILERPLATE HELPER FUNCTIONS
 
