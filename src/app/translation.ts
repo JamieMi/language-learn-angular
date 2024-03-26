@@ -6,6 +6,7 @@ export class Translation{
     createdTime!:Date;
     lastTestedDate:Date = new Date(0);
     done?:boolean = false;
+    id:number = 0;
 
     public checkDue() : boolean{
         var now = new Date();
