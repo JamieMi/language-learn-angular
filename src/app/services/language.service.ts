@@ -62,7 +62,6 @@ export class LanguageService {
       catchError(this.handleError<Translation>(`getTranslation id=${id}`))
     );
   }
-
   
   /** PUT: update the translation on the server */
   updateTranslation(translation: Translation): Observable<any> {
