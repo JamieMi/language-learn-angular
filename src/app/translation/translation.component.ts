@@ -9,11 +9,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { LanguageService } from '../services/language.service';
 
-enum OpenMode {
-  ADD,
-  EDIT
-};
-
 @Component({
   selector: 'app-translation',
   standalone: true,
@@ -24,13 +19,10 @@ enum OpenMode {
 export class TranslationComponent {
   @Input() translation = new Translation;
   @Input() translationfocus:boolean=false;  
-  @Input() due:boolean=false;    
+  @Input() done:boolean=false;
   @Output() deletionTranslationEvent = new EventEmitter<number>();
   
-  public done:boolean=false;
-
   constructor(private languageService: LanguageService, public dialog: MatDialog) {
-    this.due = true;
   }
 
   openEditDialog() {
@@ -85,8 +77,12 @@ export class TranslationComponent {
       console.log(data.createdTime);
       console.log(this.translation.createdTime);
       this.languageService.updateTranslation(data);
-      this.due = this.translation.checkDue();  
+      this.done = !this.translation.checkDue();  
     }
+  }
+
+  checkDue(){
+    this.done = !this.translation.checkDue();
   }
 
   setFocus(setF:boolean){
@@ -95,7 +91,8 @@ export class TranslationComponent {
 
   setTranslationInstance(translation:Translation)
   {
-    //this.translation = translation; // won't work, because the original translation is an object, NOT an instance
+    // Simple assignment won't work, because the original translation is an object, NOT an instance
+    // this.translation = translation; 
 
     this.translation.sourcePhrase = translation.sourcePhrase;
     this.translation.translatedPhrase = translation.translatedPhrase;

@@ -4,8 +4,9 @@ import { Translation } from '../translation';
 import { TranslationComponent } from '../translation/translation.component';
 import { TestComponent } from '../test/test.component';
 import { LanguageService } from '../services/language.service';
-import { MatDialog, MatDialogConfig, MatDialogModule } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { EditTranslationComponent } from '../edit-translation/edit-translation.component';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -34,17 +35,6 @@ export class HomeComponent {
   modifyTranslations(translations: Translation[]){
     for (const item of translations)
     {
-
-
-      if (item instanceof Translation) {
-        console.log('item.translation is an instance of Translation');
-        console.log(typeof(item));
-      } else {
-        console.log('item.translation is not an instance of Translation');
-        console.log(typeof(item));
-      }
-
-
       let translationComponent = new TranslationComponent(this.languageService, this.dialog);
 
       item.createdTime = new Date(item.createdTime); // required because JSON conversion doesn't handle the date well
@@ -89,9 +79,14 @@ export class HomeComponent {
   }
 
   onDone(){
-  this.translationList.forEach ((item, index) => {
-      item.done = true;
+    this.translationList.forEach ((item, index) => {
+      //item.done = true;
       item.translation.lastTestedDate = new Date();
+      //item.done = !item.translation.checkDue();
+      item.checkDue();
+      //item.updateTranslation(item.translation);//desperate 
+      //this.cRef.detectChanges(); // in vain
+      //this.cRef.markForCheck(); // in vain
     });
   }
 
@@ -107,7 +102,7 @@ export class HomeComponent {
   onCreationTimeBack(data:any){
     this.translationList.forEach( (item, index) => {
       item.translation.setCreatedTimeBack();
-      item.done = !item.translation.checkDue();
+      item.checkDue();
     });
   }
 
