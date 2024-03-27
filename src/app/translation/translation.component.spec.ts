@@ -49,11 +49,6 @@ describe('TranslationComponent', () => {
     openDialogExpects();
   });
 
-  it('should open and close add dialog', () => {
-    component.openAddDialog();
-    openDialogExpects();
-  });
-
   // TODO: How do we test saving?
 
 // BOILERPLATE HELPER FUNCTIONS

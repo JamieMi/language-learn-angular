@@ -39,7 +39,8 @@ export class EditTranslationComponent implements OnInit{
   translatedPhrase!:string;
 
   createdDate = new Date();
-  lastTestedDate = new Date();
+  lastTestedDate:Date = new Date(0);
+
   minDate = new Date(2014, 0, 1);
   maxDate = new Date(2030, 0, 1);
 
@@ -82,8 +83,8 @@ export class EditTranslationComponent implements OnInit{
     // The Epoch time value is still correct - it just seems to be *$%£ing the type
     // ... so we have to recreate that...
     this.createdDate = new Date(this.createdDate);
-    this.lastTestedDate = new Date(this.createdDate);
-    modifiedTranslation.createdTime = this.createdDate;    
+    modifiedTranslation.createdTime = this.createdDate;   
+     
     modifiedTranslation.lastTestedDate = this.lastTestedDate;    
     this.dialogRef.close(modifiedTranslation);
   }
