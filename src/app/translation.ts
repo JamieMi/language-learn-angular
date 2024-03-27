@@ -34,27 +34,31 @@ export class Translation{
             0xFFFFFFFF // forever
             ];
             
-      var due = false;
-      var lastMilestone = 0;
+      let due = false;
+      let lastMilestone = 0;
 
       milestones.forEach ((item, index) => {
         
-        console.log("Now (",now," >= ",this.createdTime);
-        var milestoneMS = item.valueOf() * Time.MS_PER_DAY;
-        var milestoneTime = this.createdTime.getTime() + milestoneMS;
-        var testedMSSinceCreation = this.lastTestedDate.getTime() - this.createdTime.getTime();
+        //console.log("Now (",now," >= ",this.createdTime);
+        let milestoneMS = item.valueOf() * Time.MS_PER_DAY;
+        let milestoneTime = this.createdTime.getTime() + milestoneMS;
+        let testedMSSinceCreation = this.lastTestedDate.getTime() - this.createdTime.getTime();
+        //console.log("milestone:", milestoneMS, " Milestone time:", milestoneTime);
 
         if (now.getTime() >=  milestoneTime){
           console.log("last tested: ",this.lastTestedDate);
-          console.log("testedMSSinceCreation:",testedMSSinceCreation," milestoneMS:",milestoneMS)
+          console.log("creation: ",this.createdTime);
+          console.log("tested days since creation:",testedMSSinceCreation / Time.MS_PER_DAY, "testedMSSinceCreation:",testedMSSinceCreation," milestoneMS:",milestoneMS)
 
           if (testedMSSinceCreation < milestoneMS){
             console.log(item);
+            //console.log("DUE");
             due = true;
             lastMilestone = item.valueOf();          
           };
         };
       });
+      if (!due) console.log("NOT DUE");
       return due;
     }
 

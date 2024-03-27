@@ -19,7 +19,10 @@
         </span>
     </section>
     <section>
-        <app-translation *ngFor="let translation of translationList" [translation]="translation.translation" (deletionTranslationEvent)="onDeleteTranslation($event)"></app-translation>
+        <!--app-translation *ngFor="let translation of translationList" [translation]="translation.translation" (deletionTranslationEvent)="onDeleteTranslation($event)"></app-translation-->
+        <div *ngFor="let translation of translationList">
+            <app-translation *ngIf="!translation.done"  [translation]="translation.translation" (deletionTranslationEvent)="onDeleteTranslation($event)"></app-translation>
+        </div>
     </section>
     <section>
         <button type="button" class="supportbutton" (click)="onDone()">Done</button>
