@@ -11,7 +11,6 @@ export class Translation{
     public checkDue() : boolean{
         var now = new Date();
 
-        
         const milestones:number[] = [
             1, // 1 day
             2,
@@ -68,10 +67,16 @@ export class Translation{
     }
 
     public setTestedTimeBack(){
-      this.lastTestedDate = new Date(this.lastTestedDate.getTime() - Time.MS_PER_DAY);
+      if (this.lastTestedDate.getTime() != 0)
+      {
+        this.lastTestedDate = new Date(this.lastTestedDate.getTime() - Time.MS_PER_DAY);
+      }
     }
 
     public setTestedTimeForward(){
-      this.lastTestedDate = new Date(this.lastTestedDate.getTime() + Time.MS_PER_DAY);
+      if (this.lastTestedDate.getTime() != 0)
+      {
+        this.lastTestedDate = new Date(this.lastTestedDate.getTime() + Time.MS_PER_DAY);
+      }
     }
 }

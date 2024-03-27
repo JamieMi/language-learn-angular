@@ -10,7 +10,7 @@
                     <p class="expand">&lt;&lt;</p>
                 </ng-template>
             </button>
-            <app-test (additionTranslationEvent)="onAddTranslation($event)" 
+            <app-test 
             (creationTimeBackEvent)="onCreationTimeBack($event)"
             (creationTimeForwardEvent)="onCreationTimeForward($event)"
             (testedTimeBackEvent)="onTestedTimeBack($event)"
@@ -19,10 +19,11 @@
         </span>
     </section>
     <section>
-        <app-translation *ngFor="let translation of translations" [translation]="translation" (deletionTranslationEvent)="onDeleteTranslation($event)"></app-translation>
+        <app-translation *ngFor="let translation of translationList" [translation]="translation.translation" (deletionTranslationEvent)="onDeleteTranslation($event)"></app-translation>
     </section>
     <section>
         <button type="button" class="supportbutton" (click)="onDone()">Done</button>
         <button type="button" class="supportbutton">Copy</button>
+        <button type="button" class="supportbutton" (click)="onAdd()">Add</button>
     </section>
 </body>

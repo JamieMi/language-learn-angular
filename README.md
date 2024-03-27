@@ -2,7 +2,7 @@
 
 # LanguageLearn
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.3, and currently working with **17.3.1**.
 
 This is a project to practice and consolidate Angular development, including **Angular Materials**, and the **Jest** framework.
 It reimagines a previous application, LanguageLearn, that I wrote in C++ for my own desktop Windows environment and occasionally ported for newer versions of Visual Studio. This new application will be simplified however. The original idea was to create a spaced repetition system that tracked the user's success in recalling phrases translating between English and German and offered them more frequently if the user was having trouble with them.
@@ -32,6 +32,8 @@ I expect to extend the current state of the project in the following ways:
 `npm i @angular/material-moment-adapter`
 
 `npm i moment`
+
+`npm i angular-in-memory-web-api --save`
 
 ## Development server
 

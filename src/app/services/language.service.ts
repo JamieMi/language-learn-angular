@@ -65,20 +65,20 @@ export class LanguageService {
 
   
   /** PUT: update the translation on the server */
-  /*updateTranslation(translaton: Translation): Observable<any> {
+  updateTranslation(translation: Translation): Observable<any> {
     return this.http.put(this.translationUrl, translation, this.httpOptions).pipe(
       tap(_ => this.log(`updated translation id=${translation.id}`)),
       catchError(this.handleError<any>('updateTranslation'))
     );
-  }*/
+  }
 
   /** POST: add a new translation to the server */
-  /*addTranslation(translation: Translation): Observable<Translation> {
+  addTranslation(translation: Translation): Observable<Translation> {
     return this.http.post<Translation>(this.translationUrl, translation, this.httpOptions).pipe(
       tap((newTranslation: Translation) => this.log(`added translation w/ id=${newTranslation.id}`)),
       catchError(this.handleError<Translation>('addTranslation'))
     );
-  }*/
+  }
 
   /** DELETE: delete the translation from the server */
   deleteTranslation(id: number): Observable<Translation> {
