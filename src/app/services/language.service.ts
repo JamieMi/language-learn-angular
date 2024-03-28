@@ -65,6 +65,7 @@ export class LanguageService {
   
   /** PUT: update the translation on the server */
   updateTranslation(translation: Translation): Observable<any> {
+    console.log("updating translation:", translation);
     return this.http.put(this.translationUrl, translation, this.httpOptions).pipe(
       tap(_ => this.log(`updated translation id=${translation.id}`)),
       catchError(this.handleError<any>('updateTranslation'))
