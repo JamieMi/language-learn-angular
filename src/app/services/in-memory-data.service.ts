@@ -7,7 +7,7 @@ import { Translation } from '../translation'
 })
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
-    
+    console.log("CREATING DB");
     const translations: Translation[] = [];
 
     var phrases = [
@@ -53,7 +53,7 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ]
 
-    let id:number = 0;
+    let id:number = 10;
     phrases.forEach ((item, index) => {
       var translation = new Translation();
       translation.sourcePhrase = item.sourcePhrase;
@@ -72,10 +72,10 @@ export class InMemoryDataService implements InMemoryDbService {
   // the method below returns the initial number (11).
   // if the translation array is not empty, the method below returns the highest
   // translation id + 1.
-  /*
-  genId(translation: Translation[]): number {
-    return translation.length > 0 ? Math.max(...translation.map(translation => translation.id)) + 1 : 11;
-  }*/
-  // TO DO
 
+  genId(translation: Translation[]): number {
+    let id:number = translation.length > 0 ? Math.max(...translation.map(translation => translation.id)) + 1 : 11;
+    console.log("genID: Id:", id);
+    return id;
+  }
 }

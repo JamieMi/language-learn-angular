@@ -38,9 +38,9 @@ export class HomeComponent {
     {
       let translationComponent = new TranslationComponent(this.languageService, this.dialog);
 
-      item.createdTime = new Date(item.createdTime); // required because JSON conversion doesn't handle the date well
-      item.lastTestedDate = new Date(item.lastTestedDate); // required because JSON conversion doesn't handle the date well
-      translationComponent.setTranslationInstance(item);
+      this.adjustJSONFormat(item);
+      
+      translationComponent.translation = Object.assign({}, item); // deep copy
       
       this.translationList.push(translationComponent);
     }
@@ -67,15 +67,18 @@ export class HomeComponent {
   updateList (data:Translation){
     if (data != undefined) // i.e. Save, not Close
     {
-      console.log("Adding new translation:"); 
-      console.log(data);
-
       let translationComponent = new TranslationComponent(this.languageService,this.dialog);
 
       translationComponent.translation = data;
+      let newId = this.translationList.length > 0 ? Math.max(...this.translationList.map(translation => translation.translation.id)) + 1 : 1;
+      translationComponent.translation.id = newId;
+      
+      console.log("Adding new translation:"); 
+      console.log(data);
+
       this.translationList.push(translationComponent);
 
-      this.languageService.addTranslation(data);
+      this.languageService.addTranslation(translationComponent.translation);
     }
   }
 
@@ -130,11 +133,30 @@ export class HomeComponent {
     console.log("-".repeat(20));
     console.log("Refreshing from DB");
     console.log("-".repeat(20));
-    this.getTranslations();
+
+    // testing with a hardcoded id for the moment
+    console.log("Getting a translation:");
+    let targetID:number = 12;
+    this.languageService.getTranslation(targetID).subscribe(translation => {
+      
+      const index = this.translationList.findIndex(item => item.translation.id === targetID);
+      if (index !== -1) {
+        this.adjustJSONFormat(translation);
+        this.translationList[index].translation = Object.assign({}, translation);
+        
+        console.log("set translation instance:", this.translationList[index].translation, " ---> ", translation);
+      }
+      console.log(translation.sourcePhrase);
+    });
+  }
+
+  adjustJSONFormat(translation:Translation){
+    // required because JSON conversion doesn't return the date in the same format
+    translation.createdTime = new Date(translation.createdTime); 
+    translation.lastTestedDate = new Date(translation.lastTestedDate);
   }
 
   throwError() {
     throw new Error('an error has been invoked');
   }
 }
-
