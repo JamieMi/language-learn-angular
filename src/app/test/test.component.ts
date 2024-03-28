@@ -13,62 +13,39 @@ import { EditTranslationComponent } from '../edit-translation/edit-translation.c
 })
 export class TestComponent {
 
-  
-  @Output() additionTranslationEvent = new EventEmitter<Translation>();
-  @Output() creationTimeBackEvent = new EventEmitter<any>();
-  @Output() creationTimeForwardEvent = new EventEmitter<any>();
-  @Output() testedTimeBackEvent = new EventEmitter<any>();
-  @Output() testedTimeForwardEvent = new EventEmitter<any>();
+  @Output() creationTimeBackEvent = new EventEmitter<number>();
+  @Output() creationTimeForwardEvent = new EventEmitter<number>();
+  @Output() testedTimeBackEvent = new EventEmitter<number>();
+  @Output() testedTimeForwardEvent = new EventEmitter<number>();
+  @Output() refreshFromDBEvent = new EventEmitter<void>();
 
   constructor(public dialog: MatDialog) {}
 
   public _reload = true;
+  daysToJump = 1; // for the moment, sufficient to always jump 1 day
 
   private reload() {
       setTimeout(() => this._reload = false);
       setTimeout(() => this._reload = true);
   }
-  
-  // Takes a boolean, because workarounds for scope limitations of enums in JS are just too ugly.
-  openDialog() {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-
-    let translation!: Translation;
-    
-    dialogConfig.data = {
-      title: 'Add translation',
-      data: translation
-    }
-
-    const dialogRef = this.dialog.open(EditTranslationComponent, dialogConfig.data)
-    
-    dialogRef.afterClosed().subscribe(
-      data => (this.update(data))
-      
-    );    
-  };
-
-  update(data:Translation){
-    console.log(data);
-    this.additionTranslationEvent.emit(data);
-  }
 
   creationBack(){
-    this.creationTimeBackEvent.emit(null);
+    this.creationTimeBackEvent.emit(this.daysToJump);
   }
 
   creationForward(){
-    this.creationTimeForwardEvent.emit(null);
+    this.creationTimeForwardEvent.emit(this.daysToJump);
   }
 
   testedBack(){
-    this.testedTimeBackEvent.emit(null);
+    this.testedTimeBackEvent.emit(this.daysToJump);
   }
 
   testedForward(){
-    this.testedTimeForwardEvent.emit(null);
+    this.testedTimeForwardEvent.emit(this.daysToJump);
+  }
+
+  refreshFromDB(){
+    this.refreshFromDBEvent.emit();
   }
 }

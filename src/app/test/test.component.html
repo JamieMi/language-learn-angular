@@ -1,7 +1,11 @@
+<div class="toolsarea">
+
 <span class="menubar">
-    <button class="button" (click)="openDialog()" title="Add a new translation" (click)="openDialog()">Add</button>
     <button class="button" (click)="creationBack()" title="Set the creation date back 1 day for all translations">Creation -1 day</button>
     <button class="button" (click)="creationForward()" title="Set the creation date forward 1 day for all translations">Creation +1 day</button>
     <button class="button" (click)="testedBack()" title="Set the tested date back 1 day for all translations">Tested -1 day</button>
     <button class="button" (click)="testedForward()" title="Set the tested date forward 1 day for all translations">Tested +1 day</button>
+    <button class="button" (click)="refreshFromDB()" title="Refresh the translations list">Refresh from DB</button>
+    <div class="notes">Note: To simulate a day passing, click BOTH "Creation -1 day" and "Tested -1 day."</div>
 </span>
+</div>
