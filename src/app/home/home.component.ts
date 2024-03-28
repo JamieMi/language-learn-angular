@@ -28,6 +28,7 @@ export class HomeComponent {
   }
 
   getTranslations(): void{
+    this.translationList.length = 0;
     this.languageService.getTranslations()
       .subscribe(translations => this.modifyTranslations(translations));
   }
@@ -80,13 +81,11 @@ export class HomeComponent {
 
   onDone(){
     this.translationList.forEach ((item, index) => {
-      //item.done = true;
-      item.translation.lastTestedDate = new Date();
-      //item.done = !item.translation.checkDue();
-      item.checkDue();
-      //item.updateTranslation(item.translation);//desperate 
-      //this.cRef.detectChanges(); // in vain
-      //this.cRef.markForCheck(); // in vain
+      if (item.translation.done === false){
+        item.translation.lastTestedDate = new Date();
+        item.checkDue();
+        this.languageService.updateTranslation(item.translation);
+      }
     });
   }
 
@@ -99,33 +98,41 @@ export class HomeComponent {
     this.languageService.deleteTranslation(id);
   }
 
-  onCreationTimeBack(data:any){
+  onCreationTimeBack(days:number){
     this.translationList.forEach( (item, index) => {
-      item.translation.setCreatedTimeBack();
+      item.translation.setCreatedTimeBack(days);
       item.checkDue();
     });
   }
 
-  onCreationTimeForward(data:any){
+  onCreationTimeForward(days:number){
     this.translationList.forEach( (item, index) => {
-      item.translation.setCreatedTimeForward();
+      item.translation.setCreatedTimeForward(days);
       item.done = !item.translation.checkDue();
     });
   }
 
-  onTestedTimeBack(data:any){
+  onTestedTimeBack(days:number){
     this.translationList.forEach( (item, index) => {
-      item.translation.setTestedTimeBack();
+      item.translation.setTestedTimeBack(days);
       item.done = !item.translation.checkDue();
     });
   }
 
-  onTestedTimeForward(data:any){
+  onTestedTimeForward(days:number){
     this.translationList.forEach( (item, index) => {
-      item.translation.setTestedTimeForward();
+      item.translation.setTestedTimeForward(days);
       item.done = !item.translation.checkDue();
     });
   }
+
+  onRefreshFromDB(){
+    console.log("-".repeat(20));
+    console.log("Refreshing from DB");
+    console.log("-".repeat(20));
+    this.getTranslations();
+  }
+
   throwError() {
     throw new Error('an error has been invoked');
   }

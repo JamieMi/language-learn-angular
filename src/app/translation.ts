@@ -39,11 +39,9 @@ export class Translation{
 
       milestones.forEach ((item, index) => {
         
-        //console.log("Now (",now," >= ",this.createdTime);
         let milestoneMS = item.valueOf() * Time.MS_PER_DAY;
         let milestoneTime = this.createdTime.getTime() + milestoneMS;
         let testedMSSinceCreation = this.lastTestedDate.getTime() - this.createdTime.getTime();
-        //console.log("milestone:", milestoneMS, " Milestone time:", milestoneTime);
 
         if (now.getTime() >=  milestoneTime){
           console.log("last tested: ",this.lastTestedDate);
@@ -52,7 +50,6 @@ export class Translation{
 
           if (testedMSSinceCreation < milestoneMS){
             console.log(item);
-            //console.log("DUE");
             due = true;
             lastMilestone = item.valueOf();          
           };
@@ -62,25 +59,25 @@ export class Translation{
       return due;
     }
 
-    public setCreatedTimeBack(){
-      this.createdTime = new Date(this.createdTime.getTime() - Time.MS_PER_DAY);
+    public setCreatedTimeBack(days:number){
+      this.createdTime = new Date(this.createdTime.getTime() - Time.MS_PER_DAY * days);
     }
 
-    public setCreatedTimeForward(){
-      this.createdTime = new Date(this.createdTime.getTime() + Time.MS_PER_DAY);
+    public setCreatedTimeForward(days:number){
+      this.createdTime = new Date(this.createdTime.getTime() + Time.MS_PER_DAY * days);
     }
 
-    public setTestedTimeBack(){
+    public setTestedTimeBack(days:number){
       if (this.lastTestedDate.getTime() != 0)
       {
-        this.lastTestedDate = new Date(this.lastTestedDate.getTime() - Time.MS_PER_DAY);
+        this.lastTestedDate = new Date(this.lastTestedDate.getTime() - Time.MS_PER_DAY * days);
       }
     }
 
-    public setTestedTimeForward(){
+    public setTestedTimeForward(days:number){
       if (this.lastTestedDate.getTime() != 0)
       {
-        this.lastTestedDate = new Date(this.lastTestedDate.getTime() + Time.MS_PER_DAY);
+        this.lastTestedDate = new Date(this.lastTestedDate.getTime() + Time.MS_PER_DAY * days);
       }
     }
 }
