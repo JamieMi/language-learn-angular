@@ -35,6 +35,7 @@ export class TranslationComponent {
       data: this.translation
     }
 
+    console.log("opening Edit Dialog, id:", dialogConfig.data.id, this.translation.id)
     const dialogRef = this.dialog.open(EditTranslationComponent, dialogConfig.data)
 
     dialogRef.afterClosed().subscribe(
@@ -89,16 +90,18 @@ export class TranslationComponent {
     this.translationfocus = setF;
   };
 
+  /*
   setTranslationInstance(translation:Translation)
   {
-    // Simple assignment won't work, because the original translation is an object, NOT an instance
-    // this.translation = translation; 
+    // Object.assign method won't work, because the original translation is an object, NOT an instance
+    // ... but only when called from DBRefresh PaymentMethodChangeEvent (getTranslations()),
+    // NOT on first initialisation (getTranslation()).
 
     this.translation.sourcePhrase = translation.sourcePhrase;
     this.translation.translatedPhrase = translation.translatedPhrase;
     this.translation.lastTestedDate = translation.lastTestedDate;
     this.translation.createdTime = translation.createdTime;
     this.translation.id = translation.id;
-    this.translation.done = translation.done;
-  }
+    this.translation.done = translation.done;    
+  }*/
 }
