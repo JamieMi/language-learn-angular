@@ -89,19 +89,4 @@ export class TranslationComponent {
   setFocus(setF:boolean){
     this.translationfocus = setF;
   };
-
-  /*
-  setTranslationInstance(translation:Translation)
-  {
-    // Object.assign method won't work, because the original translation is an object, NOT an instance
-    // ... but only when called from DBRefresh PaymentMethodChangeEvent (getTranslations()),
-    // NOT on first initialisation (getTranslation()).
-
-    this.translation.sourcePhrase = translation.sourcePhrase;
-    this.translation.translatedPhrase = translation.translatedPhrase;
-    this.translation.lastTestedDate = translation.lastTestedDate;
-    this.translation.createdTime = translation.createdTime;
-    this.translation.id = translation.id;
-    this.translation.done = translation.done;    
-  }*/
 }

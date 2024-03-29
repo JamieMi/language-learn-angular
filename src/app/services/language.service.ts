@@ -42,7 +42,6 @@ export class LanguageService {
 
   /** GET translations from the server */
   getTranslations(): Observable<Translation[]> {
-    console.log("getting translations");
     return this.http.get<Translation[]>(this.translationUrl)
       .pipe(
         tap(_ => this.log('fetched translations')),

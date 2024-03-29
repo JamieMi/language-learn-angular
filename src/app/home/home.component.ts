@@ -77,7 +77,6 @@ export class HomeComponent {
       console.log(data);
 
       this.translationList.push(translationComponent);
-
       this.languageService.addTranslation(translationComponent.translation);
     }
   }
