@@ -58,7 +58,7 @@ export class EditTranslationComponent implements OnInit{
     {
       this.sourcePhrase = data.sourcePhrase;
       this.translatedPhrase = data.translatedPhrase;
-      this.createdDate = data.createdTime;
+      this.createdDate = data.createdDate;
       this.lastTestedDate = data.lastTestedDate;
       this.id = data.id;
     }
@@ -86,7 +86,7 @@ export class EditTranslationComponent implements OnInit{
     // The Epoch time value is still correct - it just seems to be *$%£ing the type
     // ... so we have to recreate that...
     this.createdDate = new Date(this.createdDate);
-    modifiedTranslation.createdTime = this.createdDate;   
+    modifiedTranslation.createdDate = this.createdDate;   
 
     modifiedTranslation.lastTestedDate = this.lastTestedDate;    
 

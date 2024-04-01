@@ -16,7 +16,7 @@ content-type: application/json
     "id": 12,
     "sourcePhrase": "to stow",
     "translatedPhrase": "verstauen",
-    "createdDate":"2024-12-30"
+    "createdDate":"2024-02-28"
 }
 
 ###
@@ -29,7 +29,14 @@ GET http://localhost:5215/cards/11
 
 ###
 
-DELETE http://localhost:5215/cards/11
+DELETE http://localhost:5215/cards/1
 
+
+
+###
+
+###
+
+GET http://localhost:4200/api/cards/
 
 
