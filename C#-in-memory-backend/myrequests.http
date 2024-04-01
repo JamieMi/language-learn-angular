@@ -1,0 +1,35 @@
+POST http://localhost:5215/cards
+content-type: application/json
+
+{
+    "id": 11,
+    "sourcePhrase": "infrastructure",
+    "translatedPhrase": "die Infrastruktur",
+    "createdDate":"2024-12-30"
+}
+
+###
+POST http://localhost:5215/cards
+content-type: application/json
+
+{
+    "id": 12,
+    "sourcePhrase": "to stow",
+    "translatedPhrase": "verstauen",
+    "createdDate":"2024-12-30"
+}
+
+###
+
+GET http://localhost:5215/cards/
+
+###
+
+GET http://localhost:5215/cards/11
+
+###
+
+DELETE http://localhost:5215/cards/11
+
+
+
