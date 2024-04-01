@@ -2,7 +2,7 @@
 
 # LanguageLearn
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.3, and currently working with **17.3.1**.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.3, and currently working with **17.3.1**. In addition it now contains a .NET Core 8 C# project for an in memory back end.
 
 This is a project to practice and consolidate Angular development, including **Angular Materials**, and the **Jest** framework.
 It reimagines a previous application, LanguageLearn, that I wrote in C++ for my own desktop Windows environment and occasionally ported for newer versions of Visual Studio. This new application will be simplified however. The original idea was to create a spaced repetition system that tracked the user's success in recalling phrases translating between English and German and offered them more frequently if the user was having trouble with them.
@@ -20,8 +20,7 @@ I still use the original system every day, using a database of 33000 words and p
 
 I expect to extend the current state of the project in the following ways:
 - extend the coverage in Jest - in particular in testing Angular Materials
-- add the functionality to show only the due items, which is the key to it being useable for my own personal use.
-- create a C# .NET back end, possibly first with local file access for the database, and then a proper web back end.
+- we have no persistence yet (relying on an in memory database).
 
 ## Install other necessary components
 
@@ -37,7 +36,7 @@ I expect to extend the current state of the project in the following ways:
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 

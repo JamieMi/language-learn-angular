@@ -45,6 +45,7 @@ export class HomeComponent {
       this.translationList.push(translationComponent);
     }
     console.log(translations);
+    // TO DO: need to make sure Untested gets displayed, now that lastTestedDate doeesn't default to 0
   }
 
   onAdd(){
@@ -78,6 +79,7 @@ export class HomeComponent {
 
       this.translationList.push(translationComponent);
       this.languageService.addTranslation(translationComponent.translation);
+      console.log("... should have added a translation...:"); 
     }
   }
 
@@ -102,14 +104,14 @@ export class HomeComponent {
 
   onCreationTimeBack(days:number){
     this.translationList.forEach( (item, index) => {
-      item.translation.setCreatedTimeBack(days);
+      item.translation.setCreatedDateBack(days);
       item.checkDue();
     });
   }
 
   onCreationTimeForward(days:number){
     this.translationList.forEach( (item, index) => {
-      item.translation.setCreatedTimeForward(days);
+      item.translation.setCreatedDateForward(days);
       item.done = !item.translation.checkDue();
     });
   }
@@ -135,7 +137,7 @@ export class HomeComponent {
 
     // testing with a hardcoded id for the moment
     console.log("Getting a translation:");
-    let targetID:number = 12;
+    let targetID:number = 2;
     this.languageService.getTranslation(targetID).subscribe(translation => {
       
       const index = this.translationList.findIndex(item => item.translation.id === targetID);
@@ -151,8 +153,13 @@ export class HomeComponent {
 
   adjustJSONFormat(translation:Translation){
     // required because JSON conversion doesn't return the date in the same format
-    translation.createdTime = new Date(translation.createdTime); 
+    console.log("Modifying JSON format:",
+      translation.createdDate,
+      translation.lastTestedDate,
+      "--->");
+    translation.createdDate = new Date(translation.createdDate); 
     translation.lastTestedDate = new Date(translation.lastTestedDate);
+    console.log(translation.createdDate,translation.lastTestedDate);
   }
 
   throwError() {

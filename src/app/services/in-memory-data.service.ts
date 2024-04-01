@@ -58,7 +58,7 @@ export class InMemoryDataService implements InMemoryDbService {
       var translation = new Translation();
       translation.sourcePhrase = item.sourcePhrase;
       translation.translatedPhrase = item.translatedPhrase;
-      translation.createdTime = new Date();
+      translation.createdDate = new Date();
       translation.done = false;
       translation.id = ++id;
       translations.push(translation);

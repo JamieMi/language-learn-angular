@@ -53,9 +53,14 @@ app.MapDelete("/cards/{id}", (int id, ICardService service) =>
     return TypedResults.NoContent();
 });
 
+app.MapPut("/todoitems/{id}", (Card card, ICardService service) =>
+{
+    service.UpdateCardById(card);
+});
+
 app.Run();
 
-public record Card(int id, string sourcePhrase, string translatedPhrase, DateTime createdDate = default(DateTime)){}
+public record Card(int id, string sourcePhrase, string translatedPhrase, DateTime createdDate = default(DateTime), DateTime lastTestedDate = default(DateTime)){}
 
 
 interface ICardService
@@ -64,6 +69,7 @@ interface ICardService
     Card GetCardById(int id);
     Card AddCard(Card card);
     void DeleteCardById(int id);
+    void UpdateCardById(Card card);
 }
 
 class InMemoryCardService : ICardService
@@ -77,7 +83,7 @@ class InMemoryCardService : ICardService
         new(6, "to be on the verge, on the brink, about to", "stehen kurz vor", DateTime.Now),
         new(7, "Nothing I had seen of her so far was able to nourish the illusion that the sacred fire of poetry blazed in her", "Nichts, was ich bisher von ihr gesehen hatte, vermochte die Illusion zu nähren, in ihr lodere das heilige Feuer der Dichtkunst", DateTime.Now),
         new(8, "to disarm", "entwaffnen", DateTime.Now),
-        new(9, "- How you doing? - Still trapped on the surface of a sphere.", "- Wie geht's? - Auf der Oberfläche einer Kugel gefangen", DateTime.Now),
+        new(9, "-   How you doing? - Still trapped on the surface of a sphere.", "- Wie geht's? - Auf der Oberfläche einer Kugel gefangen", DateTime.Now),
         new(10, "I'll throw paper planes at whoever I please", "Ich werfe Papierflieger auf wen ich will", DateTime.Now),
     };
 
@@ -89,6 +95,15 @@ class InMemoryCardService : ICardService
     public void DeleteCardById(int id)
     {
         _cards.RemoveAll(cards => id == cards.id);
+    }
+
+    public void UpdateCardById(Card card){
+        // update the Card in _cards with the id with the card parameter
+        var cardToUpdate = _cards.SingleOrDefault(cards => card.id == cards.id);
+
+        // check whether cardToUpate is valid
+        if (cardToUpdate is null) return;
+        cardToUpdate = card;        
     }
 
     public Card? GetCardById(int id)
