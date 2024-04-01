@@ -75,8 +75,8 @@ export class TranslationComponent {
 
       console.log(data.sourcePhrase);
       console.log(this.translation.sourcePhrase);
-      console.log(data.createdTime);
-      console.log(this.translation.createdTime);
+      console.log(data.createdDate.getTime());
+      console.log(this.translation.createdDate.getTime());
       this.languageService.updateTranslation(data);
       this.done = !this.translation.checkDue();  
     }

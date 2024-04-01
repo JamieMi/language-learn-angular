@@ -3,7 +3,7 @@ import {Time} from './time';
 export class Translation{
     sourcePhrase: string = "";
     translatedPhrase= "";
-    createdTime!:Date;
+    createdDate!:Date;
     lastTestedDate:Date = new Date(0);
     done?:boolean = false;
     id:number = 0;
@@ -40,12 +40,12 @@ export class Translation{
       milestones.forEach ((item, index) => {
         
         let milestoneMS = item.valueOf() * Time.MS_PER_DAY;
-        let milestoneTime = this.createdTime.getTime() + milestoneMS;
-        let testedMSSinceCreation = this.lastTestedDate.getTime() - this.createdTime.getTime();
+        let milestoneTime = this.createdDate.getTime() + milestoneMS;
+        let testedMSSinceCreation = this.lastTestedDate.getTime() - this.createdDate.getTime();
 
         if (now.getTime() >=  milestoneTime){
           console.log("last tested: ",this.lastTestedDate);
-          console.log("creation: ",this.createdTime);
+          console.log("creation: ",this.createdDate);
           console.log("tested days since creation:",testedMSSinceCreation / Time.MS_PER_DAY, "testedMSSinceCreation:",testedMSSinceCreation," milestoneMS:",milestoneMS)
 
           if (testedMSSinceCreation < milestoneMS){
@@ -59,12 +59,12 @@ export class Translation{
       return due;
     }
 
-    public setCreatedTimeBack(days:number){
-      this.createdTime = new Date(this.createdTime.getTime() - Time.MS_PER_DAY * days);
+    public setCreatedDateBack(days:number){
+      this.createdDate = new Date(this.createdDate.getTime() - Time.MS_PER_DAY * days);
     }
 
-    public setCreatedTimeForward(days:number){
-      this.createdTime = new Date(this.createdTime.getTime() + Time.MS_PER_DAY * days);
+    public setCreatedDateForward(days:number){
+      this.createdDate = new Date(this.createdDate.getTime() + Time.MS_PER_DAY * days);
     }
 
     public setTestedTimeBack(days:number){

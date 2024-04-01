@@ -10,10 +10,14 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LanguageService {
-  private translationUrl = 'api/translations';  // URL to web api
+  private translationUrl = 'api/cards';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    /*headers: new HttpHeaders({
+      'Content-type': 'application/json',
+      'Access-Control-Request-Headers': 'PUT',
+    })*/
   };
 
   // This is an example of a typical service-in-service scenario
@@ -56,6 +60,7 @@ export class LanguageService {
   /** GET translation by id. Will 404 if id not found */
   getTranslation(id: number): Observable<Translation> {
     const url = `${this.translationUrl}/${id}`;
+    console.log("getting...",url);
     return this.http.get<Translation>(url).pipe(
       tap(_ => this.log(`fetched translation id=${id}`)),
       catchError(this.handleError<Translation>(`getTranslation id=${id}`))
@@ -63,44 +68,64 @@ export class LanguageService {
   }
   
   /** PUT: update the translation on the server */
-  updateTranslation(translation: Translation): Observable<any> {
-    console.log("updating translation:", translation);
+  // Apparently the Angular proxy is designed to only work for
+    // CUD operations when subscribe is implemented.
+
+  /*updateTranslation(translation: Translation): Observable<any> {
     return this.http.put(this.translationUrl, translation, this.httpOptions).pipe(
       tap(_ => this.log(`updated translation id=${translation.id}`)),
       catchError(this.handleError<any>('updateTranslation'))
-    );
+    );*/
+  updateTranslation(translation: Translation) {
+    console.log("updating translation:", translation);
+    this.http.put<any>(this.translationUrl, translation, this.httpOptions).subscribe({
+      next: data => {
+      },
+      error: error => {
+          console.error('Error:', error.message);
+      }
+    })
   }
+  // TODO: Get this working with the PUT implementation on the C# backend.
+  // Currently a 405 errror.
 
   /** POST: add a new translation to the server */
-  addTranslation(translation: Translation): Observable<Translation> {
-    return this.http.post<Translation>(this.translationUrl, translation, this.httpOptions).pipe(
+  //addTranslation(translation: Translation): Observable<Translation> {
+  addTranslation(translation: Translation) {
+    console.log("addTranslation:",this.translationUrl, translation);
+    /*return this.http.post<Translation>(this.translationUrl, translation, this.httpOptions).pipe(
       tap((newTranslation: Translation) => this.log(`added translation w/ id=${newTranslation.id}`)),
       catchError(this.handleError<Translation>('addTranslation'))
-    );
+    );*/
+
+    // Apparently the Angular proxy is designed to only work for
+    // CUD operations when subscribe is implemented.
+    this.http.post<any>(this.translationUrl, translation).subscribe({
+      next: data => {
+          //this.postId = data.id;
+      },
+      error: error => {
+          console.error('Error:', error.message);
+      }
+    })
+    
   }
 
   /** DELETE: delete the translation from the server */
-  deleteTranslation(id: number): Observable<Translation> {
+  deleteTranslation(id: number) {
     const url = `${this.translationUrl}/${id}`;
-
-    return this.http.delete<Translation>(url, this.httpOptions).pipe(
+    console.log("deleting",url);
+    /*return this.http.delete<Translation>(url, this.httpOptions).pipe(
       tap(_ => this.log(`deleted translation id=${id}`)),
       catchError(this.handleError<Translation>('deleteTranslation'))
-    );
-  }
-
-  /* GET translations whose text contains search term */
-  searchTranslations(term: string): Observable<Translation[]> {
-    if (!term.trim()) {
-      // if not search term, return empty translation array.
-      return of([]);
-    }
-    return this.http.get<Translation[]>(`${this.translationUrl}/?name=${term}`).pipe(
-      tap(x => x.length ?
-        this.log(`found translations matching "${term}"`) :
-        this.log(`no translations matching "${term}"`)),
-      catchError(this.handleError<Translation[]>('searchTranslations', []))
-    );
+    );*/
+    
+    // Apparently the Angular proxy is designed to only work for
+    // CUD operations when subscribe is implemented.
+    this.http.delete(url, this.httpOptions)
+      .subscribe((s) => {
+      console.log(s);
+    });
   }
 
   get translationUrlValue(): string {

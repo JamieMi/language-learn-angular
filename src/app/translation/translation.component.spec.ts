@@ -26,7 +26,7 @@ describe('TranslationComponent', () => {
     component.translation = {
       sourcePhrase: testSourcePhrase,
       translatedPhrase: testTranslatedPhrase,
-      createdTime:new Date(),
+      createdDate:new Date(),
       lastTestedDate:new Date(0)
       //testTime:[]
     };
