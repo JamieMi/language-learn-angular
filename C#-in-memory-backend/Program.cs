@@ -53,7 +53,7 @@ app.MapDelete("/cards/{id}", (int id, ICardService service) =>
     return TypedResults.NoContent();
 });
 
-app.MapPut("/todoitems/{id}", (Card card, ICardService service) =>
+app.MapPut("/cards", (Card card, ICardService service) =>
 {
     service.UpdateCardById(card);
 });
@@ -98,12 +98,7 @@ class InMemoryCardService : ICardService
     }
 
     public void UpdateCardById(Card card){
-        // update the Card in _cards with the id with the card parameter
-        var cardToUpdate = _cards.SingleOrDefault(cards => card.id == cards.id);
-
-        // check whether cardToUpate is valid
-        if (cardToUpdate is null) return;
-        cardToUpdate = card;        
+        _cards[_cards.FindIndex(cards => card.id == cards.id)] = card;      
     }
 
     public Card? GetCardById(int id)

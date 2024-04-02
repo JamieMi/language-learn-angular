@@ -35,7 +35,6 @@ export class TranslationComponent {
       data: this.translation
     }
 
-    console.log("opening Edit Dialog, id:", dialogConfig.data.id, this.translation.id)
     const dialogRef = this.dialog.open(EditTranslationComponent, dialogConfig.data)
 
     dialogRef.afterClosed().subscribe(
@@ -72,11 +71,6 @@ export class TranslationComponent {
     if (data != undefined) // i.e. Save, not Close
     {
       this.translation = data;
-
-      console.log(data.sourcePhrase);
-      console.log(this.translation.sourcePhrase);
-      console.log(data.createdDate.getTime());
-      console.log(this.translation.createdDate.getTime());
       this.languageService.updateTranslation(data);
       this.done = !this.translation.checkDue();  
     }

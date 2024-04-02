@@ -14,10 +14,6 @@ export class LanguageService {
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    /*headers: new HttpHeaders({
-      'Content-type': 'application/json',
-      'Access-Control-Request-Headers': 'PUT',
-    })*/
   };
 
   // This is an example of a typical service-in-service scenario
@@ -32,13 +28,7 @@ export class LanguageService {
  */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
-
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
@@ -60,25 +50,20 @@ export class LanguageService {
   /** GET translation by id. Will 404 if id not found */
   getTranslation(id: number): Observable<Translation> {
     const url = `${this.translationUrl}/${id}`;
-    console.log("getting...",url);
+    this.log("getting: " + url);
     return this.http.get<Translation>(url).pipe(
       tap(_ => this.log(`fetched translation id=${id}`)),
       catchError(this.handleError<Translation>(`getTranslation id=${id}`))
     );
   }
   
-  /** PUT: update the translation on the server */
-  // Apparently the Angular proxy is designed to only work for
-    // CUD operations when subscribe is implemented.
+  // Allegedly the Angular proxy is designed to only work for
+  // CUD operations (PUT, POST, DELETE) when subscribe is implemented.
 
-  /*updateTranslation(translation: Translation): Observable<any> {
-    return this.http.put(this.translationUrl, translation, this.httpOptions).pipe(
-      tap(_ => this.log(`updated translation id=${translation.id}`)),
-      catchError(this.handleError<any>('updateTranslation'))
-    );*/
+  /** PUT: update the translation on the server */
   updateTranslation(translation: Translation) {
-    console.log("updating translation:", translation);
-    this.http.put<any>(this.translationUrl, translation, this.httpOptions).subscribe({
+    this.log("updating translation: " + translation.id);
+    this.http.put<any>(this.translationUrl, translation).subscribe({
       next: data => {
       },
       error: error => {
@@ -86,20 +71,10 @@ export class LanguageService {
       }
     })
   }
-  // TODO: Get this working with the PUT implementation on the C# backend.
-  // Currently a 405 errror.
 
   /** POST: add a new translation to the server */
-  //addTranslation(translation: Translation): Observable<Translation> {
   addTranslation(translation: Translation) {
-    console.log("addTranslation:",this.translationUrl, translation);
-    /*return this.http.post<Translation>(this.translationUrl, translation, this.httpOptions).pipe(
-      tap((newTranslation: Translation) => this.log(`added translation w/ id=${newTranslation.id}`)),
-      catchError(this.handleError<Translation>('addTranslation'))
-    );*/
-
-    // Apparently the Angular proxy is designed to only work for
-    // CUD operations when subscribe is implemented.
+    this.log("addTranslation: " + this.translationUrl + " " +  translation.id);
     this.http.post<any>(this.translationUrl, translation).subscribe({
       next: data => {
           //this.postId = data.id;
@@ -114,17 +89,9 @@ export class LanguageService {
   /** DELETE: delete the translation from the server */
   deleteTranslation(id: number) {
     const url = `${this.translationUrl}/${id}`;
-    console.log("deleting",url);
-    /*return this.http.delete<Translation>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted translation id=${id}`)),
-      catchError(this.handleError<Translation>('deleteTranslation'))
-    );*/
-    
-    // Apparently the Angular proxy is designed to only work for
-    // CUD operations when subscribe is implemented.
+    this.log("deleting: " + url);
     this.http.delete(url, this.httpOptions)
       .subscribe((s) => {
-      console.log(s);
     });
   }
 
