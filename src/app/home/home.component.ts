@@ -45,7 +45,6 @@ export class HomeComponent {
       this.translationList.push(translationComponent);
     }
     console.log(translations);
-    // TO DO: need to make sure Untested gets displayed, now that lastTestedDate doeesn't default to 0
   }
 
   onAdd(){
@@ -73,13 +72,9 @@ export class HomeComponent {
       translationComponent.translation = data;
       let newId = this.translationList.length > 0 ? Math.max(...this.translationList.map(translation => translation.translation.id)) + 1 : 1;
       translationComponent.translation.id = newId;
-      
-      console.log("Adding new translation:"); 
-      console.log(data);
-
+    
       this.translationList.push(translationComponent);
       this.languageService.addTranslation(translationComponent.translation);
-      console.log("... should have added a translation...:"); 
     }
   }
 
@@ -130,36 +125,10 @@ export class HomeComponent {
     });
   }
 
-  onRefreshFromDB(){
-    console.log("-".repeat(20));
-    console.log("Refreshing from DB");
-    console.log("-".repeat(20));
-
-    // testing with a hardcoded id for the moment
-    console.log("Getting a translation:");
-    let targetID:number = 2;
-    this.languageService.getTranslation(targetID).subscribe(translation => {
-      
-      const index = this.translationList.findIndex(item => item.translation.id === targetID);
-      if (index !== -1) {
-        this.adjustJSONFormat(translation);
-        this.translationList[index].translation = Object.assign({}, translation);
-        
-        console.log("set translation instance:", this.translationList[index].translation, " ---> ", translation);
-      }
-      console.log(translation.sourcePhrase);
-    });
-  }
-
   adjustJSONFormat(translation:Translation){
     // required because JSON conversion doesn't return the date in the same format
-    console.log("Modifying JSON format:",
-      translation.createdDate,
-      translation.lastTestedDate,
-      "--->");
     translation.createdDate = new Date(translation.createdDate); 
     translation.lastTestedDate = new Date(translation.lastTestedDate);
-    console.log(translation.createdDate,translation.lastTestedDate);
   }
 
   throwError() {

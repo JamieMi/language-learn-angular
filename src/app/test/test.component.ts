@@ -44,8 +44,4 @@ export class TestComponent {
   testedForward(){
     this.testedTimeForwardEvent.emit(this.daysToJump);
   }
-
-  refreshFromDB(){
-    this.refreshFromDBEvent.emit();
-  }
 }
