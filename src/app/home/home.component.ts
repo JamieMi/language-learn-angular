@@ -36,11 +36,8 @@ export class HomeComponent {
   modifyTranslations(translations: Translation[]){
     for (const item of translations)
     {
-      let translationComponent = new TranslationComponent(this.languageService, this.dialog);
-
-      this.adjustJSONFormat(item);
-      
-      translationComponent.translation = Object.assign({}, item); // deep copy
+      let translationComponent = new TranslationComponent(this.languageService, this.dialog);      
+      translationComponent.translation =  Object.assign({}, item); // "{...item} as Translation" also possible for TypeScript
       
       this.translationList.push(translationComponent);
     }
@@ -123,12 +120,6 @@ export class HomeComponent {
       item.translation.setTestedTimeForward(days);
       item.done = !item.translation.checkDue();
     });
-  }
-
-  adjustJSONFormat(translation:Translation){
-    // required because JSON conversion doesn't return the date in the same format
-    translation.createdDate = new Date(translation.createdDate); 
-    translation.lastTestedDate = new Date(translation.lastTestedDate);
   }
 
   throwError() {
