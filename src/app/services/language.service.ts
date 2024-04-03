@@ -38,11 +38,24 @@ export class LanguageService {
   getTranslations(): Observable<Translation[]> {
     return this.http.get<Translation[]>(this.translationUrl)
       .pipe(
-        tap(_ => this.log('fetched translations')),
+        tap(_ => this.modifyJSONArray(_)),
         catchError(this.handleError<Translation[]>('getTranslations', []))
       );
   }
 
+  modifyJSONArray(translations : Translation[]){
+    for (const item of translations)
+    {
+      this.modifyJSON(item);
+    }
+    this.log('fetched translations');
+  }
+
+  modifyJSON(translation : Translation){
+    translation.createdDate = new Date(translation.createdDate);
+    translation.lastTestedDate = new Date(translation.lastTestedDate);
+  }
+  
   private log(message: string) {
     console.log(`LanguageService: ${message}`);
   }
@@ -52,7 +65,7 @@ export class LanguageService {
     const url = `${this.translationUrl}/${id}`;
     this.log("getting: " + url);
     return this.http.get<Translation>(url).pipe(
-      tap(_ => this.log(`fetched translation id=${id}`)),
+      tap(_ => this.modifyJSON(_)),
       catchError(this.handleError<Translation>(`getTranslation id=${id}`))
     );
   }
