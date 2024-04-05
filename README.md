@@ -1,4 +1,9 @@
-![Alt text](screenshot.png)
+
+<div style="margin: 20px 0px 20px 0px;">
+    <img style="vertical-align: top; margin: 5px 15px 5px 5px;" src="./src/favicon.svg" alt="favicon" width="10%" />
+    <img src="./screenshot.png" alt="drawing" width="85%" alt="screenshot"/>
+</div>
+
 
 # LanguageLearn
 
