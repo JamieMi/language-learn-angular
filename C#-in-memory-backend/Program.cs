@@ -1,3 +1,5 @@
+using System.Data;
+using System.Text.Json;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Rewrite;
 
@@ -74,7 +76,7 @@ interface ICardService
 
 class InMemoryCardService : ICardService
 {
-    private readonly List<Card> _cards = new List<Card>{
+    private List<Card> _cards = new List<Card>{
         new(1, "No, I want to play it safe / rather be safe than sorry", "Nein, ich gehe auf Nummer sicher", DateTime.Now),
         new(2, "supernatural", "übernatürlich", DateTime.Now),
         new(3, "to level, flatten", "ebnen", DateTime.Now),
@@ -87,18 +89,46 @@ class InMemoryCardService : ICardService
         new(10, "I'll throw paper planes at whoever I please", "Ich werfe Papierflieger auf wen ich will", DateTime.Now),
     };
 
+    public InMemoryCardService()
+    {
+        ReadFromFile();
+    }
+
+    string _filePath = "cards.json";
+
     public Card AddCard(Card card)
     {
         _cards.Add(card);
+        SaveToFile();
         return card;
     }
+
+    private void SaveToFile(){
+        var jsonString = JsonSerializer.Serialize(_cards);
+        File.WriteAllText(_filePath, jsonString);
+    }
+    private void ReadFromFile(){
+
+        if (File.Exists(_filePath))
+        {
+            var jsonString = File.ReadAllText(_filePath);
+            _cards = JsonSerializer.Deserialize<List<Card>>(jsonString);
+        }
+        else
+        {
+            _cards = new List<Card>();
+        }
+    }
+
     public void DeleteCardById(int id)
     {
         _cards.RemoveAll(cards => id == cards.id);
+        SaveToFile();
     }
 
     public void UpdateCardById(Card card){
         _cards[_cards.FindIndex(cards => card.id == cards.id)] = card;      
+        SaveToFile();
     }
 
     public Card? GetCardById(int id)

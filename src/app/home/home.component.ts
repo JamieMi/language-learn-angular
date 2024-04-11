@@ -70,8 +70,8 @@ export class HomeComponent {
       let newId = this.translationList.length > 0 ? Math.max(...this.translationList.map(translation => translation.translation.id)) + 1 : 1;
       translationComponent.translation.id = newId;
     
-      this.translationList.push(translationComponent);
       this.languageService.addTranslation(translationComponent.translation);
+      this.translationList.push(translationComponent);
     }
   }
 
