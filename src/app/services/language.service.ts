@@ -111,4 +111,14 @@ export class LanguageService {
   get translationUrlValue(): string {
     return this.translationUrl;
   }
+
+  /** Call MapGet("/loadFromOldFile") in the backend */
+  loadOldFile(): Observable<any> {
+    console.log("loadOldFile clicked");
+    const url = '/loadOldFile';
+    return this.http.get(url).pipe(
+      catchError(this.handleError<any>('loadOldFile'))
+    );
+  }
+
 }

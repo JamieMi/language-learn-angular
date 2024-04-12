@@ -1,4 +1,5 @@
 using System.Data;
+using System.Globalization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Rewrite;
@@ -28,10 +29,10 @@ app.MapGet("/cards/{id}", Results<Ok<Card>, NotFound> (int id, ICardService serv
         : TypedResults.Ok(targetCard);
 });
 
+app.MapGet("/loadOldFile", (ICardService service) => service.LoadOldFile());
 
 app.MapPost("/cards", (Card card, ICardService service) =>
-
-{
+{   
     service.AddCard(card);
     return TypedResults.Created("/cards/{id}", card);
 })
@@ -72,6 +73,7 @@ interface ICardService
     Card AddCard(Card card);
     void DeleteCardById(int id);
     void UpdateCardById(Card card);
+    void LoadOldFile(); // for test purposes, for files from the old C++ application
 }
 
 class InMemoryCardService : ICardService
@@ -116,13 +118,21 @@ class InMemoryCardService : ICardService
         }
         else
         {
-            _cards = new List<Card>();
+            // We can convert from an old-format file, if it has the right path:
+            LoadOldFile();
         }
+        // else, we still have the sample 10 items for new users
     }
-
+    
     public void DeleteCardById(int id)
     {
         _cards.RemoveAll(cards => id == cards.id);
+        SaveToFile();
+    }
+
+    public void DeleteAllCards()
+    {
+        _cards.Clear();
         SaveToFile();
     }
 
@@ -139,6 +149,38 @@ class InMemoryCardService : ICardService
     public List<Card> GetCards()
     {
         return _cards;
+    }
+
+    private DateTime OldDateTimeConversion(long oldDateTime)
+    {
+        return DateTimeOffset.FromUnixTimeSeconds(oldDateTime).DateTime;
+    }
+
+    public void LoadOldFile()
+    {
+        // Read the contents of a text file into an array, where each record consists of two strings, a datetime stamp, and then the last of a series of datetime stamps, all separated by a "|" character, and ending in a new line. 
+        string oldFilePath = "oldFile.txt";
+        if (File.Exists(oldFilePath))
+        {
+            DeleteAllCards();
+            var lines = File.ReadAllLines(oldFilePath);
+            foreach (var line in lines)
+            {
+                var parts = line.Split('|');
+                if (parts.Length >= 4)
+                {
+                    // (We don't need all of the old data for this app)
+                    var sourcePhrase = parts[0];
+                    var translatedPhrase = parts[1];
+                    var createdDate = OldDateTimeConversion(long.Parse(parts[3]));
+                    var lastTestedDate = OldDateTimeConversion(long.Parse(parts[^1]));
+                    var card = new Card(0, sourcePhrase, translatedPhrase, createdDate, lastTestedDate);
+                    // TODO: setup the ids right
+                    _cards.Add(card);
+                }
+            }
+            SaveToFile();
+        }
     }
 }
 

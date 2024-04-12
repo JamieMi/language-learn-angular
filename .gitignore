@@ -81,3 +81,6 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+
+# Our own data
+C#-in-memory-backend/cards.json
