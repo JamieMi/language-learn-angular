@@ -7,6 +7,7 @@ import { LanguageService } from '../services/language.service';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { EditTranslationComponent } from '../edit-translation/edit-translation.component';
 import { throwError } from 'rxjs';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -120,6 +121,10 @@ export class HomeComponent {
       item.translation.setTestedTimeForward(days);
       item.done = !item.translation.checkDue();
     });
+  }
+
+  onOldFileLoad(){
+    this.languageService.loadOldFile();
   }
 
   throwError() {
