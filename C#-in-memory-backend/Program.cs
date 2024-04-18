@@ -2,7 +2,6 @@ using System.Data;
 using System.Globalization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Rewrite;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<ICardService>(new InMemoryCardService());
@@ -39,7 +38,7 @@ app.MapPost("/cards", (Card card, ICardService service) =>
 .AddEndpointFilter(async (context, next) => {
     var cardsArgument = context.GetArgument<Card>(0);
     var errors = new Dictionary<string, string []>();
-    if (cardsArgument.createdDate > DateTime.UtcNow)
+    if (cardsArgument.CreatedDate > DateTime.UtcNow)
     {
         errors.Add("nameof(Cards.dueDate)",["Cannot have a created date in the future."]);
     }
@@ -61,11 +60,14 @@ app.MapPut("/cards", (Card card, ICardService service) =>
     service.UpdateCardById(card);
 });
 
+app.MapPut("/cards/batch", (List<Card> cards, ICardService service) =>
+{
+    service.BatchUpdate(cards);
+});
+
 app.Run();
 
-public record Card(int id, string sourcePhrase, string translatedPhrase, DateTime createdDate = default(DateTime), DateTime lastTestedDate = default(DateTime)){}
-
-
+public record Card(int Id, string SourcePhrase, string TranslatedPhrase, DateTime CreatedDate = default(DateTime), DateTime LastTestedDate = default(DateTime)){}
 interface ICardService
 {
     List<Card> GetCards();
@@ -73,6 +75,8 @@ interface ICardService
     Card AddCard(Card card);
     void DeleteCardById(int id);
     void UpdateCardById(Card card);
+
+    void BatchUpdate(List<Card> cards);
     void LoadOldFile(); // for test purposes, for files from the old C++ application
 }
 
@@ -100,9 +104,17 @@ class InMemoryCardService : ICardService
 
     public Card AddCard(Card card)
     {
-        _cards.Add(card);
+        // find and assign a unique id    
+        // We shouldn't / can't directly update the id in a record
+        var c = new Card(_cards.Count > 0 ? _cards.Max(c => c.Id) + 1 : 1,
+            card.SourcePhrase,
+            card.TranslatedPhrase,
+            card.CreatedDate,
+            card.LastTestedDate);
+            
+        _cards.Add(c);
         SaveToFile();
-        return card;
+        return c;
     }
 
     private void SaveToFile(){
@@ -123,10 +135,10 @@ class InMemoryCardService : ICardService
         }
         // else, we still have the sample 10 items for new users
     }
-    
+
     public void DeleteCardById(int id)
     {
-        _cards.RemoveAll(cards => id == cards.id);
+        _cards.RemoveAll(c => id == c.Id);
         SaveToFile();
     }
 
@@ -137,13 +149,25 @@ class InMemoryCardService : ICardService
     }
 
     public void UpdateCardById(Card card){
-        _cards[_cards.FindIndex(cards => card.id == cards.id)] = card;      
+        _cards[_cards.FindIndex(c => card.Id == c.Id)] = card;      
+        SaveToFile();
+    }
+
+    public void BatchUpdate(List<Card> cards){
+        foreach (var card in cards)
+        {
+            var index = _cards.FindIndex(c => c.Id == card.Id);
+            if (index != -1)
+            {
+                _cards[index] = card;
+            }
+        }
         SaveToFile();
     }
 
     public Card? GetCardById(int id)
     {
-        return _cards.SingleOrDefault(cards => id == cards.id);
+        return _cards.SingleOrDefault(card => id == card.Id);
     }
 
     public List<Card> GetCards()
@@ -164,8 +188,9 @@ class InMemoryCardService : ICardService
         {
             DeleteAllCards();
             var lines = File.ReadAllLines(oldFilePath);
-            foreach (var line in lines)
+            for (int i = 0; i < lines.Length; i++)
             {
+                var line = lines[i];
                 var parts = line.Split('|');
                 if (parts.Length >= 4)
                 {
@@ -174,11 +199,12 @@ class InMemoryCardService : ICardService
                     var translatedPhrase = parts[1];
                     var createdDate = OldDateTimeConversion(long.Parse(parts[3]));
                     var lastTestedDate = OldDateTimeConversion(long.Parse(parts[^1]));
-                    var card = new Card(0, sourcePhrase, translatedPhrase, createdDate, lastTestedDate);
-                    // TODO: setup the ids right
+                    var card = new Card(i, sourcePhrase, translatedPhrase, createdDate, lastTestedDate);
+
                     _cards.Add(card);
                 }
             }
+
             SaveToFile();
         }
     }

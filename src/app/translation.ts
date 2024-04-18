@@ -44,9 +44,9 @@ export class Translation{
         let testedMSSinceCreation = this.lastTestedDate.getTime() - this.createdDate.getTime();
 
         if (now.getTime() >=  milestoneTime){
-          console.log("last tested: ",this.lastTestedDate);
+          /*console.log("last tested: ",this.lastTestedDate);
           console.log("creation: ",this.createdDate);
-          console.log("tested days since creation:",testedMSSinceCreation / Time.MS_PER_DAY, "testedMSSinceCreation:",testedMSSinceCreation," milestoneMS:",milestoneMS)
+          console.log("tested days since creation:",testedMSSinceCreation / Time.MS_PER_DAY, "testedMSSinceCreation:",testedMSSinceCreation," milestoneMS:",milestoneMS)*/
 
           if (testedMSSinceCreation < milestoneMS){
             console.log(item);
@@ -55,7 +55,7 @@ export class Translation{
           };
         };
       });
-      if (!due) console.log("NOT DUE");
+      //if (!due) console.log("NOT DUE");
       return due;
     }
 

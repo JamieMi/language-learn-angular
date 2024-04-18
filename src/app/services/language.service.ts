@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Translation } from '../translation';
 import { Observable, of } from 'rxjs';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -38,22 +38,22 @@ export class LanguageService {
   getTranslations(): Observable<Translation[]> {
     return this.http.get<Translation[]>(this.translationUrl)
       .pipe(
-        tap(_ => this.modifyJSONArray(_)),
+        map(translations => translations.map(t => this.modifyJSON(t))),
         catchError(this.handleError<Translation[]>('getTranslations', []))
       );
   }
 
-  modifyJSONArray(translations : Translation[]){
-    for (const item of translations)
-    {
-      this.modifyJSON(item);
-    }
-    this.log('fetched translations');
-  }
-
-  modifyJSON(translation : Translation){
+  modifyJSON(t : Translation) : Translation{
+    // JSON object ---> Translation class
+    let jsonTranslation = t;
+    let translation = new Translation();
+    
+    Object.assign(translation, jsonTranslation);
+    
     translation.createdDate = new Date(translation.createdDate);
     translation.lastTestedDate = new Date(translation.lastTestedDate);
+    
+    return translation;
   }
   
   private log(message: string) {
@@ -112,13 +112,27 @@ export class LanguageService {
     return this.translationUrl;
   }
 
+  /** PUT: update a batch of translations */
+  updateTranslationBatch(translations: Translation[]) {
+    this.log("updating translation batch");
+    const url = 'api/cards/batch';  // URL to web api
+    this.http.put<any>(url, translations).subscribe({
+      next: data => {
+      },
+      error: error => {
+          console.error('Error:', error.message);
+      }
+    })
+  }
+  
   /** Call MapGet("/loadFromOldFile") in the backend */
   loadOldFile(): Observable<any> {
     console.log("loadOldFile clicked");
-    const url = '/loadOldFile';
+
+    const url = 'api/loadOldFile';  // URL to web api
+    this.log("getting: " + url);
     return this.http.get(url).pipe(
       catchError(this.handleError<any>('loadOldFile'))
     );
   }
-
 }
