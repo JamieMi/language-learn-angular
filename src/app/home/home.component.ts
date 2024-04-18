@@ -38,11 +38,10 @@ export class HomeComponent {
     for (const item of translations)
     {
       let translationComponent = new TranslationComponent(this.languageService, this.dialog);      
-      translationComponent.translation =  Object.assign({}, item); // "{...item} as Translation" also possible for TypeScript
+      translationComponent.translation = item;
       
       this.translationList.push(translationComponent);
     }
-    console.log(translations);
   }
 
   onAdd(){
@@ -68,22 +67,24 @@ export class HomeComponent {
       let translationComponent = new TranslationComponent(this.languageService,this.dialog);
 
       translationComponent.translation = data;
-      let newId = this.translationList.length > 0 ? Math.max(...this.translationList.map(translation => translation.translation.id)) + 1 : 1;
-      translationComponent.translation.id = newId;
-    
+      
       this.languageService.addTranslation(translationComponent.translation);
       this.translationList.push(translationComponent);
     }
   }
 
   onDone(){
+    let updatedTranslations : Translation[] = [];
     this.translationList.forEach ((item, index) => {
       if (item.translation.done === false){
         item.translation.lastTestedDate = new Date();
         item.checkDue();
-        this.languageService.updateTranslation(item.translation);
+
+        updatedTranslations.push(item.translation);
       }
     });
+    console.log(`now we submit the batch of ${updatedTranslations.length} updated translations:`);
+    this.languageService.updateTranslationBatch(updatedTranslations);
   }
 
   onDeleteTranslation(id:number){
