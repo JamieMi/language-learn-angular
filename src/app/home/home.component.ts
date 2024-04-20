@@ -35,13 +35,17 @@ export class HomeComponent {
   }
 
   modifyTranslations(translations: Translation[]){
-    for (const item of translations)
-    {
-      let translationComponent = new TranslationComponent(this.languageService, this.dialog);      
-      translationComponent.translation = item;
-      
-      this.translationList.push(translationComponent);
+    let count = 0;
+    for (const item of translations){
+      if (item.checkDue()){
+        let translationComponent = new TranslationComponent(this.languageService, this.dialog);      
+        translationComponent.translation = item;
+        
+        this.translationList.push(translationComponent);
+        count++;
+      }
     }
+    console.log(`Added ${count} due items`);
   }
 
   onAdd(){

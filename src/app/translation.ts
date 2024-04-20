@@ -29,16 +29,16 @@ export class Translation{
             1095,  // 3
             1460,  // 4
             1825,  // 5 
-            2190,  // 6
-            2555,  // 7
+            //2190,  // 6
+            //2555,  // 7
             0xFFFFFFFF // forever
             ];
             
       let due = false;
       let lastMilestone = 0;
 
-      milestones.forEach ((item, index) => {
-        
+      for (let i = 0;i < milestones.length;i++){
+        let item = milestones[i];
         let milestoneMS = item.valueOf() * Time.MS_PER_DAY;
         let milestoneTime = this.createdDate.getTime() + milestoneMS;
         let testedMSSinceCreation = this.lastTestedDate.getTime() - this.createdDate.getTime();
@@ -49,12 +49,13 @@ export class Translation{
           console.log("tested days since creation:",testedMSSinceCreation / Time.MS_PER_DAY, "testedMSSinceCreation:",testedMSSinceCreation," milestoneMS:",milestoneMS)*/
 
           if (testedMSSinceCreation < milestoneMS){
-            console.log(item);
+            //console.log(`due ${item}`);
             due = true;
-            lastMilestone = item.valueOf();          
+            lastMilestone = item.valueOf();
+            break;
           };
         };
-      });
+      };
       //if (!due) console.log("NOT DUE");
       return due;
     }
