@@ -198,7 +198,7 @@ class InMemoryCardService : ICardService
                     var sourcePhrase = parts[0];
                     var translatedPhrase = parts[1];
                     var createdDate = OldDateTimeConversion(long.Parse(parts[3]));
-                    var lastTestedDate = OldDateTimeConversion(long.Parse(parts[^1]));
+                    var lastTestedDate = OldDateTimeConversion(long.Parse(parts[^2]));
                     var card = new Card(i, sourcePhrase, translatedPhrase, createdDate, lastTestedDate);
 
                     _cards.Add(card);
