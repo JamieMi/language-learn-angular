@@ -1,5 +1,7 @@
 <header>
-    <p class="title">Language Learn</p>
+    <div class="title"></div>
+    <span class="title">Language Learn</span>
+    <span class="count">{{numDisplayed}}/{{numTotal}}</span>
 </header>
 <body>
     <section>
@@ -20,7 +22,6 @@
         </span>
     </section>
     <section>
-        <!--app-translation *ngFor="let translation of translationList" [translation]="translation.translation" (deletionTranslationEvent)="onDeleteTranslation($event)"></app-translation-->
         <div *ngFor="let translation of translationList">
             <app-translation *ngIf="!translation.done"  [translation]="translation.translation" (deletionTranslationEvent)="onDeleteTranslation($event)"></app-translation>
         </div>

@@ -20,6 +20,8 @@ export class HomeComponent {
 
   translationList: TranslationComponent[] = [];
   displayTestTools:boolean = false;
+  numDisplayed:number = 0;
+  numTotal:number = 0;
 
   constructor(private languageService: LanguageService, public dialog: MatDialog) {
   }
@@ -35,17 +37,17 @@ export class HomeComponent {
   }
 
   modifyTranslations(translations: Translation[]){
-    let count = 0;
+    this.numDisplayed = 0;
+    this.numTotal = translations.length;
     for (const item of translations){
       if (item.checkDue()){
         let translationComponent = new TranslationComponent(this.languageService, this.dialog);      
         translationComponent.translation = item;
         
         this.translationList.push(translationComponent);
-        count++;
+        this.numDisplayed++;
       }
     }
-    console.log(`Added ${count} due items`);
   }
 
   onAdd(){
