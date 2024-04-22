@@ -12,6 +12,7 @@ export class Translation{
         var now = new Date();
 
         const milestones:number[] = [
+            0, // because we want to see an entry in the list as soon as it is created
             1, // 1 day
             2,
             3,
