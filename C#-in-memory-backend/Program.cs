@@ -28,7 +28,7 @@ app.MapGet("/cards/{id}", Results<Ok<Card>, NotFound> (int id, ICardService serv
         : TypedResults.Ok(targetCard);
 });
 
-app.MapGet("/loadOldFile", (ICardService service) => service.LoadOldFile());
+app.MapGet("/loadOldFile", (ICardService service) => service.AppendBatch());
 
 app.MapPost("/cards", (Card card, ICardService service) =>
 {   
@@ -77,7 +77,7 @@ interface ICardService
     void UpdateCardById(Card card);
 
     void BatchUpdate(List<Card> cards);
-    void LoadOldFile(); // for test purposes, for files from the old C++ application
+    void AppendBatch(); // for test purposes, for files from the old C++ application
 }
 
 class InMemoryCardService : ICardService
@@ -106,7 +106,7 @@ class InMemoryCardService : ICardService
     {
         // find and assign a unique id    
         // We shouldn't / can't directly update the id in a record
-        var c = new Card(_cards.Count > 0 ? _cards.Max(c => c.Id) + 1 : 1,
+        var c = new Card(GetNewID(),
             card.SourcePhrase,
             card.TranslatedPhrase,
             card.CreatedDate,
@@ -115,6 +115,11 @@ class InMemoryCardService : ICardService
         _cards.Add(c);
         SaveToFile();
         return c;
+    }
+
+    private int GetNewID()
+    {
+        return _cards.Count == 0 ? 1 : _cards.Max(c => c.Id) + 1;
     }
 
     private void SaveToFile(){
@@ -128,11 +133,10 @@ class InMemoryCardService : ICardService
             var jsonString = File.ReadAllText(_filePath);
             _cards = JsonSerializer.Deserialize<List<Card>>(jsonString);
         }
-        else
-        {
-            // We can convert from an old-format file, if it has the right path:
-            LoadOldFile();
-        }
+        
+        // We can also append an old-format file, if one is available:
+        AppendBatch();
+        
         // else, we still have the sample 10 items for new users
     }
 
@@ -180,26 +184,46 @@ class InMemoryCardService : ICardService
         return DateTimeOffset.FromUnixTimeSeconds(oldDateTime).DateTime;
     }
 
-    public void LoadOldFile()
+    // Support method for adding batches of translations from the old C++ application
+    public void AppendBatch()
     {
-        // Read the contents of a text file into an array, where each record consists of two strings, a datetime stamp, and then the last of a series of datetime stamps, all separated by a "|" character, and ending in a new line. 
-        string oldFilePath = "oldFile.txt";
+        // Read the contents of a text file into an array, where each record consists of:
+        // - two strings
+        // - a datetime stamp
+        // - then the last of a series of datetime stamps, all separated by a "|" character
+        // - and ending in a new line 
+
+        string oldFilePath = "batch.txt";
         if (File.Exists(oldFilePath))
         {
-            DeleteAllCards();
             var lines = File.ReadAllLines(oldFilePath);
-            for (int i = 0; i < lines.Length; i++)
+
+            // get the highest id in the current list
+            foreach (var line in lines)
             {
-                var line = lines[i];
                 var parts = line.Split('|');
-                if (parts.Length >= 4)
+                if (parts.Length >= 2)
                 {
                     // (We don't need all of the old data for this app)
                     var sourcePhrase = parts[0];
                     var translatedPhrase = parts[1];
-                    var createdDate = OldDateTimeConversion(long.Parse(parts[3]));
-                    var lastTestedDate = OldDateTimeConversion(long.Parse(parts[^2]));
-                    var card = new Card(i, sourcePhrase, translatedPhrase, createdDate, lastTestedDate);
+
+                    var createdDate = DateTime.Now;
+                    var lastTestedDate = default(DateTime);
+                    
+                    // test whether sourcePhrase and translatedPhrase are BOTH already in the cards array
+                    if (_cards.Any(c => c.SourcePhrase == sourcePhrase && c.TranslatedPhrase == translatedPhrase))
+                    {
+                        // skip this
+                        continue;
+                    }
+
+                    if (parts.Length > 2) // if we also have existing timestamps, use them
+                    {
+                        createdDate = OldDateTimeConversion(long.Parse(parts[3]));
+                        lastTestedDate = OldDateTimeConversion(long.Parse(parts[^2]));
+                    }
+                    var card = new Card(GetNewID(), sourcePhrase, translatedPhrase, createdDate, lastTestedDate);
 
                     _cards.Add(card);
                 }
