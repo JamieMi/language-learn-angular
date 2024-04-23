@@ -96,7 +96,6 @@ export class LanguageService {
           console.error('Error:', error.message);
       }
     })
-    
   }
 
   /** DELETE: delete the translation from the server */
@@ -129,10 +128,63 @@ export class LanguageService {
   loadOldFile(): Observable<any> {
     console.log("loadOldFile clicked");
 
-    const url = 'api/loadOldFile';  // URL to web api
+    const url = 'api/loadoldfile';
     this.log("getting: " + url);
     return this.http.get(url).pipe(
       catchError(this.handleError<any>('loadOldFile'))
     );
   }
+
+    /** GET deck names from the server */
+    getDeckNames(): Observable<string[]> {
+      const url = 'api/decks/names';
+      return this.http.get<string[]>(url)
+        .pipe(
+          catchError(this.handleError<string[]>('getDeckNames', []))
+        );
+    }
+
+    getCurrentDeckName(): Observable<string> {
+      console.log("getCurrentDeckName");
+      const url = 'api/decks/current';
+      return this.http.get<string>(url)
+        .pipe(
+          catchError(this.handleError<string>('getCurrentDeckName', ""))
+        );
+    }
+
+    renameDeck(newName: string) {
+      this.log("renameDeck: " + newName);
+      const url = 'api/decks/rename';
+      this.http.put<any>(url, JSON.stringify(newName), this.httpOptions).subscribe({
+        next: data => {
+        },
+        error: error => {
+            console.error('Error:', error.message);
+        }
+      }) 
+    }
+
+    createDeck(newName: string) {
+      this.log("createDeck: " + newName);
+      const url = 'api/decks/create';
+      this.http.post<any>(url, JSON.stringify(newName), this.httpOptions).subscribe({
+        next: data => {
+        },
+        error: error => {
+            console.error('Error:', error.message);
+        }
+      }) 
+    }
+
+    deleteDeck(name: string) : string{
+      const url = `api/decks/delete/${name}`;
+      this.log("deleting: " + url);
+      this.http.delete(url, this.httpOptions)
+        .subscribe((s) => {
+          console.log("deleted deck: " + s);
+          name = s.toString();
+      });
+      return name;
+    }
 }
