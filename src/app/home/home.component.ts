@@ -6,22 +6,23 @@ import { TestComponent } from '../test/test.component';
 import { LanguageService } from '../services/language.service';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { EditTranslationComponent } from '../edit-translation/edit-translation.component';
+import { DeckDialogComponent } from '../deck-dialog/deck-dialog.component';
 import { throwError } from 'rxjs';
 import { from } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, TranslationComponent, TestComponent, ],
+  imports: [CommonModule, TranslationComponent, TestComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-
   translationList: TranslationComponent[] = [];
   displayTestTools:boolean = false;
   numDisplayed:number = 0;
   numTotal:number = 0;
+  deck:string = "Unsaved deck";
 
   constructor(private languageService: LanguageService, public dialog: MatDialog) {
   }
@@ -48,6 +49,7 @@ export class HomeComponent {
         this.numDisplayed++;
       }
     }
+    this.languageService.getCurrentDeckName().subscribe(deck => this.deck = deck);
   }
 
   onAdd(){
@@ -77,6 +79,34 @@ export class HomeComponent {
       this.languageService.addTranslation(translationComponent.translation);
       this.translationList.push(translationComponent);
     }
+  }
+
+  onDeck(){
+    let decks:string[] = [];
+    this.languageService.getDeckNames().subscribe(decks => {
+      console.log("open Deck dialog");
+      const dialogConfig = new MatDialogConfig();
+
+      console.log("decks: ",decks);
+      dialogConfig.data = {
+        disableClose: true,
+        autoFocus: true,
+        data:{
+          deckName: this.deck,
+          decks: decks
+        }
+      }
+
+      const dialogRef = this.dialog.open(DeckDialogComponent, dialogConfig.data)
+
+      dialogRef.afterClosed().subscribe(
+        // We just need to know whether the deck needs reloading
+        refresh => {
+          console.log("deck change: ", refresh)
+          this.getTranslations();
+        }
+      );
+    });
   }
 
   onDone(){

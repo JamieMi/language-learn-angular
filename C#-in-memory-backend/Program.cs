@@ -1,7 +1,7 @@
 using System.Data;
-using System.Globalization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<ICardService>(new InMemoryCardService());
@@ -28,7 +28,24 @@ app.MapGet("/cards/{id}", Results<Ok<Card>, NotFound> (int id, ICardService serv
         : TypedResults.Ok(targetCard);
 });
 
-app.MapGet("/loadOldFile", (ICardService service) => service.AppendBatch());
+app.MapGet("/loadoldfile", (ICardService service) => service.AppendBatch());
+
+app.MapGet("/decks/names", (ICardService service) => service.GetDeckNames());
+
+app.MapGet("/decks/current", (ICardService service) => JsonSerializer.Serialize(service.GetCurrentDeckName()));
+
+app.MapDelete("/decks/delete/{name}", (string name, ICardService service) => service.DeleteDeck(name));
+
+app.MapPut("/decks/rename", ([FromBody] string name, ICardService service) =>
+{   
+    service.RenameDeck(name);
+});
+
+app.MapPost("/decks/create", ([FromBody] string name, ICardService service) =>
+{   
+    service.CreateDeck(name);
+    return TypedResults.NoContent();
+});
 
 app.MapPost("/cards", (Card card, ICardService service) =>
 {   
@@ -77,11 +94,24 @@ interface ICardService
     void UpdateCardById(Card card);
 
     void BatchUpdate(List<Card> cards);
-    void AppendBatch(); // for test purposes, for files from the old C++ application
+    bool AppendBatch(); // for test purposes, for files from the old C++ application
+
+    string[] GetDeckNames();
+
+    string GetCurrentDeckName();
+
+    void CreateDeck(string name);
+
+    string DeleteDeck(string name);
+
+    void RenameDeck(string name);
 }
 
 class InMemoryCardService : ICardService
 {
+    private string _userAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\decks"; 
+    private string _currentdeckname = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\decks\\" + "currentdeckname.txt";
+
     private List<Card> _cards = new List<Card>{
         new(1, "No, I want to play it safe / rather be safe than sorry", "Nein, ich gehe auf Nummer sicher", DateTime.Now),
         new(2, "supernatural", "übernatürlich", DateTime.Now),
@@ -94,13 +124,25 @@ class InMemoryCardService : ICardService
         new(9, "-   How you doing? - Still trapped on the surface of a sphere.", "- Wie geht's? - Auf der Oberfläche einer Kugel gefangen", DateTime.Now),
         new(10, "I'll throw paper planes at whoever I please", "Ich werfe Papierflieger auf wen ich will", DateTime.Now),
     };
-
+    
+    string _filePath = "cards.json";
+    
     public InMemoryCardService()
     {
+        if (!Directory.Exists(_userAppDataPath))
+        {
+            Directory.CreateDirectory(_userAppDataPath);
+        }
+        if (!File.Exists(_currentdeckname))
+        {
+            File.WriteAllText(_currentdeckname, "cards");
+        }
+        
+        _filePath = _userAppDataPath + "\\" + GetCurrentDeckName() + ".json";
         ReadFromFile();
     }
 
-    string _filePath = "cards.json";
+    
 
     public Card AddCard(Card card)
     {
@@ -134,10 +176,11 @@ class InMemoryCardService : ICardService
             _cards = JsonSerializer.Deserialize<List<Card>>(jsonString);
         }
         
-        // We can also append an old-format file, if one is available:
-        AppendBatch();
-        
-        // else, we still have the sample 10 items for new users
+        // We can also append an old-format file, if one is available - else just save our defaults:
+        if (!AppendBatch())
+        {
+            SaveToFile();
+        };
     }
 
     public void DeleteCardById(int id)
@@ -169,6 +212,24 @@ class InMemoryCardService : ICardService
         SaveToFile();
     }
 
+    public string[] GetDeckNames()
+    {
+        //if the decks subfolder doesn't exist, create it
+        if (!Directory.Exists(_userAppDataPath))
+        {
+            Directory.CreateDirectory(_userAppDataPath);
+        }
+
+        string[] filePaths = Directory.GetFiles(_userAppDataPath);
+        filePaths = filePaths.Where(f => f.EndsWith(".json")).ToArray();
+        
+        for (int i = 0; i < filePaths.Length; i++)
+        {
+            filePaths[i] = Path.GetFileNameWithoutExtension(filePaths[i]);
+        }
+        return filePaths;
+    }
+
     public Card? GetCardById(int id)
     {
         return _cards.SingleOrDefault(card => id == card.Id);
@@ -185,7 +246,7 @@ class InMemoryCardService : ICardService
     }
 
     // Support method for adding batches of translations from the old C++ application
-    public void AppendBatch()
+    public bool AppendBatch()
     {
         // Read the contents of a text file into an array, where each record consists of:
         // - two strings
@@ -230,7 +291,78 @@ class InMemoryCardService : ICardService
             }
 
             SaveToFile();
+            return true;
         }
+        return false;
+    }
+
+    // Return string is the name of the file deleted, or a new default "cards" if no existing deck remained.
+    public string DeleteDeck(string name)
+    {
+        string filePath = _userAppDataPath + "\\" + name + ".json";
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+            if (name == GetCurrentDeckName())
+            {
+                // Find the first available deck name and load it
+                string[] deckNames = GetDeckNames();
+                if (deckNames.Length > 0)
+                {
+                    name = deckNames[0];
+                    _filePath = _userAppDataPath + "\\" + name + ".json";
+                    ReadFromFile();
+                }
+                else
+                {
+                    // create empty default deck
+                    name = "cards"; // a default
+                    _filePath = _userAppDataPath + "\\" + name + ".json";
+                    _cards.Clear();
+                    SaveToFile();
+                }
+                File.WriteAllText(_currentdeckname, name);
+            }
+        }
+
+        // Convert the C# string to a json string
+        return JsonSerializer.Serialize(name);
+    }
+
+    public void RenameDeck(string name)
+    {
+        string currentDeckNameFilePath = _userAppDataPath + "\\currentdeckname.txt";
+        if (File.Exists(currentDeckNameFilePath))
+        {
+            string oldName = File.ReadAllText(currentDeckNameFilePath);
+            string oldFilePath = _userAppDataPath + "\\" + oldName + ".json";
+            string newFilePath = _userAppDataPath + "\\" + name + ".json";
+            if (File.Exists(oldFilePath))
+            {
+               File.Move(oldFilePath, newFilePath);
+               File.WriteAllText(currentDeckNameFilePath, name);
+            }
+        }
+    }
+
+    public void CreateDeck(string name)
+    {
+        string filePath = _userAppDataPath + "\\" + name + ".json";
+        if (!File.Exists(filePath))
+        {
+            File.Create(filePath).Close();
+        }
+    }
+
+    public string GetCurrentDeckName()
+    {
+        // read the current deck name from a file
+        string currentDeckName = "default";
+        if (File.Exists(_currentdeckname))
+        {
+            currentDeckName = File.ReadAllText(_currentdeckname);
+        }
+        return currentDeckName;
     }
 }
 
