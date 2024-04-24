@@ -1,6 +1,25 @@
 
+:root {
+    --background-color-light: #12aa2b;
+    --text-color-light: rgb(73, 73, 75);
+    --translation-background-color-light: rgb(250, 242, 231);
+    --background-color-dark: #121212;
+    --text-color-dark: #ffffff;
+    --translation-background-color-light: rgb(5, 13, 24);
+}
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+}
+
+.dark-mode {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+}
 
 button{
     background-color:lightgrey;
@@ -30,6 +49,7 @@ button{
     border-radius:7px;
     margin: 4px;
     border: 0;
+    //pointer-events: none;
 }
 
 .toolsarea{

@@ -18,10 +18,10 @@
 
     <mat-dialog-actions>
         <button mat-raised-button (click)="close(false)">Close</button>
-        <button mat-raised-button color="primary" id="open-deck" class = "disabledbutton" (click)="openDeck()">Open</button>
-        <button mat-raised-button color="primary" id="rename-deck" (click)="renameDeck()">Rename</button>
-        <button mat-raised-button color="primary" id="create-deck" (click)="createDeck()">Create</button>
-        <button mat-raised-button color="primary" id="delete-deck" class = "disabledbutton" (click)="deleteDeck()">Delete</button>
+        <button disabled mat-raised-button color="primary" id="open-deck" class = "toggle disabledbutton" (click)="openDeck()">Open</button>
+        <button mat-raised-button color="primary" id="rename-deck" class = "toggle" (click)="renameDeck()">Rename</button>
+        <button mat-raised-button color="primary" id="create-deck" class = "toggle" (click)="createDeck()">Create</button>
+        <button disabled mat-raised-button color="primary" id="delete-deck" class = "toggle disabledbutton" (click)="deleteDeck()">Delete</button>
     </mat-dialog-actions>
 
 </div>
