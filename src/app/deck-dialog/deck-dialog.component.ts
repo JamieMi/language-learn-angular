@@ -63,11 +63,15 @@ export class DeckDialogComponent implements OnInit{
 
       if (this.deckExists != deckExists) {
         this.deckExists = deckExists;
-        document.getElementById('rename-deck')?.classList.toggle('disabledbutton');
-        document.getElementById('delete-deck')?.classList.toggle('disabledbutton');
-        document.getElementById('create-deck')?.classList.toggle('disabledbutton');
-        document.getElementById('open-deck')?.classList.toggle('disabledbutton');
+
+        // for each button with the "toggle" class, toggle disabled status
+        let toggleButtons = document.getElementsByClassName('toggle');
+        for(let i = 0; i < toggleButtons.length; i++) {
+          toggleButtons[i].classList.toggle('disabledbutton');
+          toggleButtons[i].toggleAttribute('disabled')
+        }
       }
+
     });
 
     //if deckName is in decks, then update the control
@@ -87,26 +91,38 @@ export class DeckDialogComponent implements OnInit{
     return this.dialogRef;
   }
   
+  // Wraps REST-API calls to the service to wait for completion, before closing the dialog
+  completeAndClose(func:any) {
+    console.log(`function: ${func}`);
+    
+    func().subscribe({
+      complete: () => {
+        this.close(true);
+      }
+    });
+  }
+
+  // All modification methods simply return "true" to refresh, if they succeed.
+  // In each case, the home component simply reloads to get the correct state.
+
   openDeck() {
-    this.close(true);
+    console.log(`Opening deck: ${this.deckName}`);
+    this.completeAndClose(() => this.languageService.openDeck(this.deckName));
   }
 
   renameDeck() {
     console.log(`Renaming deck to: ${this.deckName}`);
-    this.languageService.renameDeck(this.deckName);
-    this.close(true);
-  }
-
-  deleteDeck() {
-    console.log(`Deleting deck: ${this.deckName}`);
-    this.languageService.deleteDeck(this.deckName);
-    this.close(true);
+    this.completeAndClose(() => this.languageService.renameDeck(this.deckName));
   }
   
   createDeck() {
     console.log(`Creating deck: ${this.deckName}`);
-    this.languageService.createDeck(this.deckName);
-    this.close(true);
+    this.completeAndClose(() => this.languageService.createDeck(this.deckName));
+  }
+
+  deleteDeck() {
+    console.log(`Deleting deck: ${this.deckName}`);
+    this.completeAndClose(() => this.languageService.deleteDeck(this.deckName));
   }
 
   close(refresh:boolean) {

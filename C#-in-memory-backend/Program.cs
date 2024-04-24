@@ -41,6 +41,11 @@ app.MapPut("/decks/rename", ([FromBody] string name, ICardService service) =>
     service.RenameDeck(name);
 });
 
+app.MapPut("/decks/open", ([FromBody] string name, ICardService service) =>
+{   
+    service.OpenDeck(name);
+});
+
 app.MapPost("/decks/create", ([FromBody] string name, ICardService service) =>
 {   
     service.CreateDeck(name);
@@ -99,6 +104,8 @@ interface ICardService
     string[] GetDeckNames();
 
     string GetCurrentDeckName();
+
+    void OpenDeck(string name);
 
     void CreateDeck(string name);
 
@@ -166,14 +173,28 @@ class InMemoryCardService : ICardService
 
     private void SaveToFile(){
         var jsonString = JsonSerializer.Serialize(_cards);
-        File.WriteAllText(_filePath, jsonString);
+        if (jsonString.Length > 0 )
+        {
+            File.WriteAllText(_filePath, jsonString);
+        }
+        else{
+            // Create an empty file
+            File.Create(_filePath).Close();
+        }
     }
     private void ReadFromFile(){
 
         if (File.Exists(_filePath))
         {
             var jsonString = File.ReadAllText(_filePath);
-            _cards = JsonSerializer.Deserialize<List<Card>>(jsonString);
+            if (jsonString.Length > 0)
+            {
+                _cards = JsonSerializer.Deserialize<List<Card>>(jsonString);
+            }
+            else
+            {
+                _cards = new List<Card>();
+            }
         }
         
         // We can also append an old-format file, if one is available - else just save our defaults:
@@ -331,16 +352,41 @@ class InMemoryCardService : ICardService
 
     public void RenameDeck(string name)
     {
-        string currentDeckNameFilePath = _userAppDataPath + "\\currentdeckname.txt";
-        if (File.Exists(currentDeckNameFilePath))
+        if (File.Exists(_currentdeckname))
         {
-            string oldName = File.ReadAllText(currentDeckNameFilePath);
+            
+            string oldName = File.ReadAllText(_currentdeckname);
             string oldFilePath = _userAppDataPath + "\\" + oldName + ".json";
             string newFilePath = _userAppDataPath + "\\" + name + ".json";
-            if (File.Exists(oldFilePath))
+            
+            if (!File.Exists(newFilePath))
             {
-               File.Move(oldFilePath, newFilePath);
-               File.WriteAllText(currentDeckNameFilePath, name);
+                if (File.Exists(oldFilePath))
+                {
+                File.Move(oldFilePath, newFilePath);
+                File.WriteAllText(_currentdeckname, name);
+                }
+            }
+        }
+    }
+
+    public void OpenDeck(string name)
+    {
+        if (File.Exists(_currentdeckname))
+        {
+            string currentDeckName = File.ReadAllText(_currentdeckname);
+            if (currentDeckName == name)
+            {
+                return;
+            }
+
+            string openPath = _userAppDataPath + "\\" + name + ".json";
+            if (File.Exists(openPath))
+            {
+                File.WriteAllText(_currentdeckname, name);
+             
+                _filePath = openPath;
+                ReadFromFile();
             }
         }
     }

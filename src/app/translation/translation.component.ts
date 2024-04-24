@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Translation } from '../translation';
 import { MatDialog, MatDialogConfig, MatDialogModule } from "@angular/material/dialog";
@@ -17,6 +17,7 @@ import { LanguageService } from '../services/language.service';
   styleUrls: ['./translation.component.scss'],
 })
 export class TranslationComponent {
+  @ViewChild('appTranslation', { static: false }) appTranslation: ElementRef | undefined;
   @Input() translation = new Translation;
   @Input() translationfocus:boolean=false;  
   @Input() done:boolean=false;
