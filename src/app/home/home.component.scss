@@ -12,7 +12,6 @@ body {
 }
 
 header {
-  background-color: $headerbgcolor;
   font-size: $headerfontsize;
 }
 
@@ -39,9 +38,17 @@ header {
 .maxmincontrol{
   padding: 0;
   border: 0;
+  font-size:x-small;
+}
+
+.maxmincontrol-light{
   background-color: $headerbgcolor;
   color:blue;
-  font-size:x-small;
+}
+
+.maxmincontrol-dark{
+  background-color: black;
+  color:rgb(0, 225, 255);
 }
 
 app-test{

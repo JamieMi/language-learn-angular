@@ -1,7 +1,7 @@
-<div class="translationcard" (mouseover)="setFocus(true);" (mouseleave)="setFocus(false);">
+<div [ngClass]="darkMode ? 'dark-mode': ''"  class="translationcard" (mouseover)="setFocus(true);" (mouseleave)="setFocus(false);">
     <div style="height:20px" class="source">
 
-        <span class="sourcetext">{{translation.sourcePhrase}}</span>
+        <span [ngClass]="darkMode ? 'sourcetext-dark': 'sourcetext'">{{translation.sourcePhrase}}</span>
         <span *ngIf="translationfocus">
             <button (click)="openEditDialog()">Edit</button>
             <button (click)="openDeleteDialog()">Delete</button>
@@ -15,6 +15,6 @@
 
     </div>
     <div style="height:20px">
-        <span class="translatedtext">{{translation.translatedPhrase}}</span>
+        <span [ngClass]="darkMode ? 'translatedtext-dark': 'translatedtext'">{{translation.translatedPhrase}}</span>
     </div>
 </div>
