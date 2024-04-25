@@ -1,11 +1,9 @@
 
 :root {
-    --background-color-light: #12aa2b;
+    --background-color-light:white;
     --text-color-light: rgb(73, 73, 75);
-    --translation-background-color-light: rgb(250, 242, 231);
     --background-color-dark: #121212;
     --text-color-dark: #ffffff;
-    --translation-background-color-light: rgb(5, 13, 24);
 }
 
 html, body { height: 100%; }
@@ -49,7 +47,6 @@ button{
     border-radius:7px;
     margin: 4px;
     border: 0;
-    //pointer-events: none;
 }
 
 .toolsarea{
@@ -69,20 +66,10 @@ button{
     width:100%;
 }
 
-.sourcetext {
-    color:black;
-}
-
-.translatedtext {
-    color: chocolate;
-}
-
 .translationcard {
     padding: 4px;
-    background-color: rgb(250, 242, 231);
     margin:7px;
     text-overflow: ellipsis;
     white-space: nowrap;
+    background-color: rgb(250, 242, 231);
 }
-
-

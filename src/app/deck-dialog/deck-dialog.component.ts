@@ -4,22 +4,17 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from "@angular/material/dialog";
 import {MatInputModule } from "@angular/material/input";
 import { Inject } from '@angular/core';
-import {MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatNativeDateModule} from '@angular/material/core';
 
 import { LanguageService } from '../services/language.service';
 
-// From Angular material documentation
-//import {MatSelectModule} from '@angular/material/select';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-deck-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatInputModule,MatFormFieldModule, MatDialogModule, /*MatDatepickerModule, MatNativeDateModule, */ReactiveFormsModule, MatAutocompleteModule],
-  /*providers: [],*/
+  imports: [CommonModule, FormsModule, MatInputModule,MatFormFieldModule, MatDialogModule, ReactiveFormsModule, MatAutocompleteModule],
   templateUrl: './deck-dialog.component.html',
   styleUrls: ['./deck-dialog.component.scss']
 })
@@ -31,6 +26,7 @@ export class DeckDialogComponent implements OnInit{
   deckName!:string;
   decks: string[] = [];
   deckExists: boolean = false;
+  darkMode: boolean = false;
 
   filteredOptions: Observable<string[]> | undefined;
   optionCtrl = new FormControl();
@@ -45,6 +41,7 @@ export class DeckDialogComponent implements OnInit{
       this.deckName = data.deckName;
       this.decks = data.decks;
       console.log(data.decks);
+      this.darkMode = data.darkMode;
     }
     console.log(data);
   }

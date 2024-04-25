@@ -16,19 +16,21 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class ConfirmationDialogComponent {
   sourcePhrase:string = "Source";
   translatedPhrase:string = "Translated";
- 
+  darkMode:boolean = false;
+
   form = new FormGroup({
     sourcePhraseControl: new FormControl(''),
     translatedPhraseControl: new FormControl('')
   });
 
   constructor(
-      @Inject(MAT_DIALOG_DATA) data: Translation,
+      @Inject(MAT_DIALOG_DATA) data: any,
       @Inject(MAT_DIALOG_DATA) title:string,
       private dialogRef: MatDialogRef<ConfirmationDialogComponent>
   ){
-    this.sourcePhrase = data.sourcePhrase;
-    this.translatedPhrase = data.translatedPhrase;
+    this.sourcePhrase = data.translation.sourcePhrase;
+    this.translatedPhrase = data.translation.translatedPhrase;
+    this.darkMode = data.darkMode;
   }
 
   public confirmMessage:string = "";

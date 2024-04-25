@@ -40,6 +40,7 @@ export class EditTranslationComponent implements OnInit{
 
   createdDate = new Date();
   lastTestedDate:Date = new Date(0);
+  darkMode = false;
 
   minDate = new Date(2014, 0, 1);
   maxDate = new Date(2030, 0, 1);
@@ -51,16 +52,20 @@ export class EditTranslationComponent implements OnInit{
   });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) data: Translation,
+    @Inject(MAT_DIALOG_DATA) data: any,
     private dialogRef: MatDialogRef<EditTranslationComponent>
   ){
     if (data != undefined) 
     {
-      this.sourcePhrase = data.sourcePhrase;
-      this.translatedPhrase = data.translatedPhrase;
-      this.createdDate = data.createdDate;
-      this.lastTestedDate = data.lastTestedDate;
-      this.id = data.id;
+      if (data.translation != undefined)
+      {
+        this.sourcePhrase = data.translation.sourcePhrase;
+        this.translatedPhrase = data.translation.translatedPhrase;
+        this.createdDate = data.translation.createdDate;
+        this.lastTestedDate = data.translation.lastTestedDate;
+        this.id = data.id;
+      }
+      this.darkMode = data.darkMode;
     }
   }
  
