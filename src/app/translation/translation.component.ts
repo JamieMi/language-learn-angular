@@ -17,13 +17,19 @@ import { LanguageService } from '../services/language.service';
   styleUrls: ['./translation.component.scss'],
 })
 export class TranslationComponent {
-  @ViewChild('appTranslation', { static: false }) appTranslation: ElementRef | undefined;
+
+  static darkMode:boolean = false;
+
   @Input() translation = new Translation;
   @Input() translationfocus:boolean=false;  
   @Input() done:boolean=false;
   @Output() deletionTranslationEvent = new EventEmitter<number>();
   
   constructor(private languageService: LanguageService, public dialog: MatDialog) {
+  }
+
+  get darkMode() {
+    return TranslationComponent.darkMode;
   }
 
   openEditDialog() {
@@ -33,7 +39,9 @@ export class TranslationComponent {
       disableClose: true,
       autoFocus: true,
       title: 'Edit translation',
-      data: this.translation
+      data: {
+      translation:this.translation,
+      darkMode: this.darkMode}
     }
 
     const dialogRef = this.dialog.open(EditTranslationComponent, dialogConfig.data)
@@ -51,10 +59,12 @@ export class TranslationComponent {
 
     dialogConfig.data = {
       title: 'Delete translation',
-      data: this.translation
+      data: {
+        translation:this.translation,
+        darkMode: this.darkMode
+      }
     }
   
-
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, dialogConfig.data)
 
     dialogRef.afterClosed().subscribe(result => {

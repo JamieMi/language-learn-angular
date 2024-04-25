@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.scss']
 })
@@ -16,6 +17,11 @@ export class TestComponent {
   @Output() oldFileLoadEvent = new EventEmitter<void>();
 
   daysToJump = 1; // for the moment, sufficient to always jump 1 day
+  static darkMode:boolean = false;
+
+  get darkMode() {
+    return TestComponent.darkMode;
+  }
 
   creationBack(){
     this.creationTimeBackEvent.emit(this.daysToJump);

@@ -7,11 +7,8 @@ import { LanguageService } from '../services/language.service';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { EditTranslationComponent } from '../edit-translation/edit-translation.component';
 import { DeckDialogComponent } from '../deck-dialog/deck-dialog.component';
-import { throwError } from 'rxjs';
-import { from } from 'rxjs';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -21,20 +18,18 @@ import { ViewChild, ElementRef } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  
+
   translationList: TranslationComponent[] = [];
   displayTestTools:boolean = false;
   numDisplayed:number = 0;
   numTotal:number = 0;
   deck:string = "Unsaved deck";
   darkMode:boolean = false;
-  translationNativeElement:HTMLElement | undefined;
 
-  constructor(translationElement: ElementRef, private languageService: LanguageService, public dialog: MatDialog) {
-    this.translationNativeElement = translationElement.nativeElement;
+  constructor(private languageService: LanguageService, public dialog: MatDialog) {
   }
-
-  ngOnInit(): void {
-    
+  ngOnInit(): void {  
     this.getTranslations();
   }
 
@@ -58,6 +53,7 @@ export class HomeComponent {
       }
     }
     this.languageService.getCurrentDeckName().subscribe(deck => this.deck = deck);
+    console.log("stopping timer");
     this.stopSpinner();
   }
 
@@ -68,7 +64,8 @@ export class HomeComponent {
     dialogConfig.data = {
       disableClose: true,
       autoFocus: true,
-      title: 'Add translation'
+      title: 'Add translation',
+      data:{darkMode: this.darkMode}
     }
 
     const dialogRef = this.dialog.open(EditTranslationComponent, dialogConfig.data)
@@ -103,7 +100,8 @@ export class HomeComponent {
         autoFocus: true,
         data:{
           deckName: this.deck,
-          decks: decks
+          decks: decks,
+          darkMode: this.darkMode
         }
       }
 
@@ -183,11 +181,13 @@ export class HomeComponent {
 
   onToggleDarkMode() {
     this.darkMode = document.body.classList.toggle('dark-mode');
-    //document.querySelector("app-translation")?.classList.toggle('dark-mode');
     
-    //getElementById can't work with an angular component
-    this.translationNativeElement?.classList.toggle('dark-mode');
-    // TO DO: get thiw working
+    // Ideally we'd be able to access the element of child components, but the Angular method
+    // to do this with ViewChild requires a hacky workaround to delay initialisation, which
+    // won't work anyway if we'd have to delay binding. So we're using a static flag in each
+    // child component.
+    TranslationComponent.darkMode = this.darkMode;
+    TestComponent.darkMode = this.darkMode;
     
     localStorage.setItem('darkMode', this.darkMode ? 'enabled' : 'disabled');
 
