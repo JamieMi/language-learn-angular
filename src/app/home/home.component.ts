@@ -10,10 +10,13 @@ import { DeckDialogComponent } from '../deck-dialog/deck-dialog.component';
 import { throwError } from 'rxjs';
 import { from } from 'rxjs';
 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ViewChild, ElementRef } from '@angular/core';
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, TranslationComponent, TestComponent],
+  imports: [CommonModule, TranslationComponent, TestComponent, MatProgressSpinnerModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -23,15 +26,20 @@ export class HomeComponent {
   numDisplayed:number = 0;
   numTotal:number = 0;
   deck:string = "Unsaved deck";
+  darkMode:boolean = false;
+  translationNativeElement:HTMLElement | undefined;
 
-  constructor(private languageService: LanguageService, public dialog: MatDialog) {
+  constructor(translationElement: ElementRef, private languageService: LanguageService, public dialog: MatDialog) {
+    this.translationNativeElement = translationElement.nativeElement;
   }
 
   ngOnInit(): void {
+    
     this.getTranslations();
   }
 
   getTranslations(): void{
+    this.startSpinner();
     this.translationList.length = 0;
     this.languageService.getTranslations()
       .subscribe(translations => this.modifyTranslations(translations));
@@ -50,6 +58,7 @@ export class HomeComponent {
       }
     }
     this.languageService.getCurrentDeckName().subscribe(deck => this.deck = deck);
+    this.stopSpinner();
   }
 
   onAdd(){
@@ -83,6 +92,7 @@ export class HomeComponent {
 
   onDeck(){
     let decks:string[] = [];
+    
     this.languageService.getDeckNames().subscribe(decks => {
       console.log("open Deck dialog");
       const dialogConfig = new MatDialogConfig();
@@ -155,15 +165,43 @@ export class HomeComponent {
 
   onTestedTimeForward(days:number){
     this.translationList.forEach( (item, index) => {
-      item.translation.setTestedTimeForward(days);
-      item.done = !item.translation.checkDue();
-    });
-  }
+    item.translation.setTestedTimeForward(days);
+    item.done = !item.translation.checkDue();
+  });}
 
   onOldFileLoad(){
     this.languageService.loadOldFile();
   }
+  
+  startSpinner(){
+    document.querySelector('#loading')?.setAttribute('style', 'display: true');
+  }
 
+  stopSpinner(){
+    document.querySelector('#loading')?.setAttribute('style', 'display: none');
+  }
+
+  onToggleDarkMode() {
+    this.darkMode = document.body.classList.toggle('dark-mode');
+    //document.querySelector("app-translation")?.classList.toggle('dark-mode');
+    
+    //getElementById can't work with an angular component
+    this.translationNativeElement?.classList.toggle('dark-mode');
+    // TO DO: get thiw working
+    
+    localStorage.setItem('darkMode', this.darkMode ? 'enabled' : 'disabled');
+
+    /*
+    We need to find a place for this:
+    // On page load
+    document.addEventListener('DOMContentLoaded', (event) => {
+      if (localStorage.getItem('darkMode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+    */
+  }
+  
   throwError() {
     throw new Error('an error has been invoked');
   }

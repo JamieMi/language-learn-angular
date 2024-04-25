@@ -1,27 +1,19 @@
 /* Define standard variables and values for website */
 
-$font: Helvetica, sans-serif;
-$textcolor: rgb(73, 73, 75);
 $headerbgcolor:  white;
-$bodybgcolor: white;
 $bodyfontsize: 18px;
 $headerfontsize: 22px;
 
 /* Use the variables */
 body {
-  font: 100% $font;
   margin: 30;
   padding: 30;
-  background-color: $bodybgcolor;
-  color: $textcolor;
   font-size: $bodyfontsize;
 }
 
 header {
-  font: 100% $font;
   background-color: $headerbgcolor;
   font-size: $headerfontsize;
-  color: $textcolor;
 }
 
 .expand {

@@ -152,39 +152,36 @@ export class LanguageService {
           catchError(this.handleError<string>('getCurrentDeckName', ""))
         );
     }
-
-    renameDeck(newName: string) {
-      this.log("renameDeck: " + newName);
+    
+    renameDeck(newName: string):Observable<any> {
+      console.log("renameDeck: " + newName);
       const url = 'api/decks/rename';
-      this.http.put<any>(url, JSON.stringify(newName), this.httpOptions).subscribe({
-        next: data => {
-        },
-        error: error => {
-            console.error('Error:', error.message);
-        }
-      }) 
+      return this.http.put<any>(url, JSON.stringify(newName), this.httpOptions).pipe(
+        tap(_ => console.log("renamed deck"))
+      );
     }
 
-    createDeck(newName: string) {
+    openDeck(name: string):Observable<any> {
+      console.log("openDeck: " + name);
+      const url = 'api/decks/open';      
+      return this.http.put<any>(url, JSON.stringify(name), this.httpOptions).pipe(
+        tap(_ => console.log("opened deck"))
+      );
+    }
+
+    createDeck(newName: string):Observable<any> {
       this.log("createDeck: " + newName);
       const url = 'api/decks/create';
-      this.http.post<any>(url, JSON.stringify(newName), this.httpOptions).subscribe({
-        next: data => {
-        },
-        error: error => {
-            console.error('Error:', error.message);
-        }
-      }) 
+      return this.http.post<any>(url, JSON.stringify(newName), this.httpOptions).pipe(
+        tap(_ => console.log("created deck"))
+      );
     }
 
-    deleteDeck(name: string) : string{
+    deleteDeck(name: string):Observable<any> {
       const url = `api/decks/delete/${name}`;
       this.log("deleting: " + url);
-      this.http.delete(url, this.httpOptions)
-        .subscribe((s) => {
-          console.log("deleted deck: " + s);
-          name = s.toString();
-      });
-      return name;
+      return this.http.delete(url, this.httpOptions).pipe(
+        tap(_ => console.log("deleted deck"))
+      );
     }
 }
