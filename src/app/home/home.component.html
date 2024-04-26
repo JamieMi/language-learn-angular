@@ -1,10 +1,10 @@
 <header>
     <div class="title"></div>
     <span class="title">Language Learn</span>
-    <span class="count">{{numDisplayed}}/{{numTotal}}</span>
+    <span [ngClass]="darkMode ? 'dark-mode count': 'count'">{{numDisplayed}}/{{numTotal}}</span>
     <span>
-        <button type="button" class="deckbutton supportbutton" (click)="onDeck()">{{deck}}</button>
-        <button type="button" class="deckbutton supportbutton" (click)="onToggleDarkMode()">{{(darkMode?"Dark mode":"Light mode")}}</button>
+        <button type="button" [ngClass]="darkMode ? 'supportbutton-dark': 'deckbutton supportbutton'" (click)="onDeck()">{{deck}}</button>
+        <button type="button" [ngClass]="darkMode ? 'supportbutton-dark': 'deckbutton supportbutton'" (click)="onToggleDarkMode()">{{(darkMode?"Dark mode":"Light mode")}}</button>
     </span>
 </header>
 
@@ -31,9 +31,8 @@
     </div>
 </section>
 <section>
-    <button type="button" class="supportbutton" (click)="onDone()">Done</button>
-    <button type="button" class="supportbutton">Copy</button>
-    <button type="button" class="supportbutton" (click)="onAdd()">Add</button>
+    <button type="button" [ngClass]="darkMode ? 'supportbutton-dark': 'supportbutton-light'" (click)="onDone()">Done</button>
+    <button type="button" [ngClass]="darkMode ? 'supportbutton-dark': 'supportbutton-light'" (click)="onAdd()">Add</button>
 </section>
 <div id="loading">
     <mat-spinner style="position: fixed; top: 50%; left: 50%;" mode="indeterminate"></mat-spinner>
