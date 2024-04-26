@@ -24,15 +24,34 @@ header {
     display:inline-block;
     font-size:14px;
     padding:4px 10px;
+}
+
+.supportbutton-light {
+    background-color: lightgray;
+    color: #000;
     &:hover {
       background-color: #000;
       color: #fff;
     }
 }
 
+.supportbutton-dark {
+  background-color: rgb(0, 107, 119);
+  color: white;
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+}
+
+// just use supportbutton-dark for the dark mode version
 .deckbutton {
   background-color: #ebc2a9;
   color:black;
+  &:hover {
+    background-color: #000;
+    color: #fff;
+  }
 }
 
 .maxmincontrol{
