@@ -280,10 +280,12 @@ class InMemoryCardService : ICardService
         {
             var lines = File.ReadAllLines(oldFilePath);
 
-            // get the highest id in the current list
-            foreach (var line in lines)
+            int offsetDays = 0; // max 25 new entries offered per day
+            const int maxEntriesPerDay = 25;
+
+            for (int i = 0; i < lines.Length; i++)
             {
-                var parts = line.Split('|');
+                var parts = lines[i].Split('|');
                 if (parts.Length >= 2)
                 {
                     // (We don't need all of the old data for this app)
@@ -305,7 +307,15 @@ class InMemoryCardService : ICardService
                         createdDate = OldDateTimeConversion(long.Parse(parts[3]));
                         lastTestedDate = OldDateTimeConversion(long.Parse(parts[^2]));
                     }
+                    else
+                    {
+                        createdDate += TimeSpan.FromDays(offsetDays);
+                    }
+
                     var card = new Card(GetNewID(), sourcePhrase, translatedPhrase, createdDate, lastTestedDate);
+                    if ( i % maxEntriesPerDay == (maxEntriesPerDay - 1)){
+                        offsetDays++;
+                    }
 
                     _cards.Add(card);
                 }
