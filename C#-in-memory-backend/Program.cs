@@ -217,7 +217,12 @@ class InMemoryCardService : ICardService
     }
 
     public void UpdateCardById(Card card){
-        _cards[_cards.FindIndex(c => card.Id == c.Id)] = card;      
+        var index = _cards.FindIndex(c => card.Id == c.Id);
+        if (index != -1)
+        {
+            _cards[index] = card;
+        }
+
         SaveToFile();
     }
 

@@ -63,7 +63,8 @@ export class EditTranslationComponent implements OnInit{
         this.translatedPhrase = data.translation.translatedPhrase;
         this.createdDate = data.translation.createdDate;
         this.lastTestedDate = data.translation.lastTestedDate;
-        this.id = data.id;
+        this.id = data.translation.id;
+        console.log("edit item id:", this.id);
       }
       this.darkMode = data.darkMode;
     }
