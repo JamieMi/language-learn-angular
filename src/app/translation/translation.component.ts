@@ -24,6 +24,7 @@ export class TranslationComponent {
   @Input() translationfocus:boolean=false;  
   @Input() done:boolean=false;
   @Output() deletionTranslationEvent = new EventEmitter<number>();
+  @Output() editTranslationEvent = new EventEmitter<Translation>();
   
   constructor(private languageService: LanguageService, public dialog: MatDialog) {
   }
@@ -82,7 +83,8 @@ export class TranslationComponent {
     if (data != undefined) // i.e. Save, not Close
     {
       this.translation = data;
-      this.languageService.updateTranslation(data);
+      this.editTranslationEvent.emit(data);
+      //this.languageService.updateTranslation(data);
       this.done = !this.translation.checkDue();  
     }
   }
