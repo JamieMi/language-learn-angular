@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Translation } from '../translation';
 import { Observable, of } from 'rxjs';
-
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-
 import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -52,7 +50,6 @@ export class LanguageService {
     
     translation.createdDate = new Date(translation.createdDate);
     translation.lastTestedDate = new Date(translation.lastTestedDate);
-    
     return translation;
   }
   

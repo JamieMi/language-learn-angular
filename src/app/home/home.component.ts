@@ -140,6 +140,12 @@ export class HomeComponent {
     this.languageService.deleteTranslation(id);
   }
 
+  onEditTranslation(translation:Translation){
+    // I don't think we need to update the component, because that has already happened
+    this.languageService.updateTranslation(translation);
+  }
+
+  
   onCreationTimeBack(days:number){
     this.translationList.forEach( (item, index) => {
       item.translation.setCreatedDateBack(days);
@@ -150,21 +156,21 @@ export class HomeComponent {
   onCreationTimeForward(days:number){
     this.translationList.forEach( (item, index) => {
       item.translation.setCreatedDateForward(days);
-      item.done = !item.translation.checkDue();
+      item.checkDue();
     });
   }
 
   onTestedTimeBack(days:number){
     this.translationList.forEach( (item, index) => {
       item.translation.setTestedTimeBack(days);
-      item.done = !item.translation.checkDue();
+      item.checkDue();
     });
   }
 
   onTestedTimeForward(days:number){
     this.translationList.forEach( (item, index) => {
     item.translation.setTestedTimeForward(days);
-    item.done = !item.translation.checkDue();
+    item.checkDue();
   });}
 
   onOldFileLoad(){

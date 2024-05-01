@@ -27,7 +27,9 @@
 </section>
 <section>
     <div *ngFor="let translation of translationList">
-        <app-translation *ngIf="!translation.done" [translation]="translation.translation"></app-translation>
+        <app-translation *ngIf="!translation.done" [translation]="translation.translation" 
+        (deletionTranslationEvent)="onDeleteTranslation($event)"
+        (editTranslationEvent)="onEditTranslation($event)"></app-translation>
     </div>
 </section>
 <section>
