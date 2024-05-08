@@ -6,10 +6,10 @@
             <button (click)="openEditDialog()">Edit</button>
             <button (click)="openDeleteDialog()">Delete</button>
             <button class="datetime">Created: {{
-                translation.createdDate.getDate()+"-"+(translation.createdDate.getMonth()+1)+"-"+translation.createdDate.getFullYear()
+                translation.createdDate | date
             }}</button>
             <button class="datetime">Last done: {{
-                (translation.lastTestedDate.getTime() <= 1) ? "Untested" : translation.lastTestedDate.getDate()+"-"+(translation.lastTestedDate.getMonth()+1)+"-"+translation.lastTestedDate.getFullYear()
+                (translation.lastTestedDate.getTime() <= 1) ? "Untested" : translation.lastTestedDate |date
             }}</button>
         </span>
 
