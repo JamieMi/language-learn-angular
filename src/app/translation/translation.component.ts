@@ -8,11 +8,12 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { LanguageService } from '../services/language.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-translation',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatFormFieldModule, MatDatepickerModule],
+  imports: [CommonModule, MatDialogModule, MatFormFieldModule, MatDatepickerModule, DatePipe],
   templateUrl: './translation.component.html',
   styleUrls: ['./translation.component.scss'],
 })
