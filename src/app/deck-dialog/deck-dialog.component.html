@@ -1,27 +1,29 @@
 <div [ngClass]="darkMode ? 'color-scheme-dark':'color-scheme-light'" class="deck-name-form">
-    <h2 mat-dialog-title>Deck management</h2>
-    
-    <mat-dialog-content class="translationcard inputfield">
-        <mat-form-field>
-            <input type="text"
-                placeholder="Name an existing deck or a new one"
-                matInput [matAutocomplete]="auto"
-                [formControl]="optionCtrl">
-        </mat-form-field>
+  <h2 mat-dialog-title>Deck management</h2>
 
-        <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{option}}
-            </mat-option>
-        </mat-autocomplete>
+  <mat-dialog-content class="translationcard inputfield">
+    <mat-form-field>
+      <input type="text"
+        placeholder="Name an existing deck or a new one"
+        matInput [matAutocomplete]="auto"
+        [formControl]="optionCtrl">
+      </mat-form-field>
+
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (option of filteredOptions | async; track option) {
+          <mat-option [value]="option">
+            {{option}}
+          </mat-option>
+        }
+      </mat-autocomplete>
     </mat-dialog-content>
 
     <mat-dialog-actions>
-        <button mat-raised-button (click)="close(false)">Close</button>
-        <button disabled mat-raised-button color="primary" id="open-deck" class = "toggle disabledbutton" (click)="openDeck()">Open</button>
-        <button mat-raised-button color="primary" id="rename-deck" class = "toggle" (click)="renameDeck()">Rename</button>
-        <button mat-raised-button color="primary" id="create-deck" class = "toggle" (click)="createDeck()">Create</button>
-        <button disabled mat-raised-button color="primary" id="delete-deck" class = "toggle disabledbutton" (click)="deleteDeck()">Delete</button>
+      <button mat-raised-button (click)="close(false)">Close</button>
+      <button disabled mat-raised-button color="primary" id="open-deck" class = "toggle disabledbutton" (click)="openDeck()">Open</button>
+      <button mat-raised-button color="primary" id="rename-deck" class = "toggle" (click)="renameDeck()">Rename</button>
+      <button mat-raised-button color="primary" id="create-deck" class = "toggle" (click)="createDeck()">Create</button>
+      <button disabled mat-raised-button color="primary" id="delete-deck" class = "toggle disabledbutton" (click)="deleteDeck()">Delete</button>
     </mat-dialog-actions>
 
-</div>
+  </div>
