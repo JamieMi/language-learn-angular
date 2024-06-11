@@ -1,50 +1,56 @@
 <div class="edit-form">
-    <h2 mat-dialog-title>Edit translation</h2>
-    
-    <mat-dialog-content [formGroup]="form"  class="translationcard inputfield">
+  <h2 mat-dialog-title>Edit translation</h2>
+
+  <mat-dialog-content [formGroup]="form"  class="translationcard inputfield">
     <div></div>
     <div class="inputfield">
-        <mat-form-field class="phrase">
-            <input matInput
-                placeholder="Source text"
-                formControlName="sourcePhraseControl">
+      <mat-form-field class="phrase">
+        <input matInput
+          placeholder="Source text"
+          formControlName="sourcePhraseControl">
         </mat-form-field>
-    </div>
-    <div>
+      </div>
+      <div>
         <mat-form-field class="phrase">
-            <input matInput
-                placeholder="Translation text"
-                formControlName="translatedPhraseControl">
-        </mat-form-field>
-    </div>
+          <input matInput
+            placeholder="Translation text"
+            formControlName="translatedPhraseControl">
+          </mat-form-field>
+        </div>
         <mat-form-field>
-            <mat-label>Choose a creation date</mat-label>
-            <input #minmaxInput matInput
-                #resultPickerModel="ngModel"
-                [ngModelOptions]="{standalone: true}"
-                [(ngModel)]="createdDate"
-                [matDatepicker]="minmaxvalidation"
-                [min]="minDate" 
-                [max]="maxDate">
+          <mat-label>Choose a creation date</mat-label>
+          <input #minmaxInput matInput
+            #resultPickerModel="ngModel"
+            [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="createdDate"
+            [matDatepicker]="minmaxvalidation"
+            [min]="minDate"
+            [max]="maxDate">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="minmaxvalidation"></mat-datepicker-toggle>
             <mat-datepicker #basicDatepicker #minmaxvalidation [startAt]="createdDate"></mat-datepicker>
-            <mat-error *ngIf="resultPickerModel.hasError('matDatepickerParse')">
+            @if (resultPickerModel.hasError('matDatepickerParse')) {
+              <mat-error>
                 "{{resultPickerModel.getError('matDatepickerParse').text}}"
-                 is not a valid date!
+                is not a valid date!
               </mat-error>
-              <mat-error *ngIf="resultPickerModel.hasError('matDatepickerMin')">
-                Minimum date should be {{maxDate | date }}</mat-error>
-              <mat-error *ngIf="resultPickerModel.hasError('matDatepickerMax')">
+            }
+            @if (resultPickerModel.hasError('matDatepickerMin')) {
+              <mat-error>
+              Minimum date should be {{maxDate | date }}</mat-error>
+            }
+            @if (resultPickerModel.hasError('matDatepickerMax')) {
+              <mat-error>
                 Maximum date should be {{maxDate | date }}
-            </mat-error>
-        </mat-form-field>
-    
-    </mat-dialog-content>
+              </mat-error>
+            }
+          </mat-form-field>
 
-    <mat-dialog-actions>
-        <button mat-raised-button (click)="close()">Close</button>
-        <button mat-raised-button color="primary" (click)="save()">Save</button>
-    </mat-dialog-actions>
+        </mat-dialog-content>
 
-</div>
+        <mat-dialog-actions>
+          <button mat-raised-button (click)="close()">Close</button>
+          <button mat-raised-button color="primary" (click)="save()">Save</button>
+        </mat-dialog-actions>
+
+      </div>
