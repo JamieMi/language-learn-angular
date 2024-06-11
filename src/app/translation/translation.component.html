@@ -1,20 +1,22 @@
 <div [ngClass]="darkMode ? 'dark-mode': ''"  class="translationcard" (mouseover)="setFocus(true);" (mouseleave)="setFocus(false);">
-    <div style="height:20px" class="source">
+  <div style="height:20px" class="source">
 
-        <span [ngClass]="darkMode ? 'sourcetext-dark': 'sourcetext'">{{translation.sourcePhrase}}</span>
-        <span *ngIf="translationfocus">
-            <button (click)="openEditDialog()">Edit</button>
-            <button (click)="openDeleteDialog()">Delete</button>
-            <button class="datetime">Created: {{
-                translation.createdDate | date
-            }}</button>
-            <button class="datetime">Last done: {{
-                (translation.lastTestedDate.getTime() <= 1) ? "Untested" : translation.lastTestedDate |date
-            }}</button>
-        </span>
+    <span [ngClass]="darkMode ? 'sourcetext-dark': 'sourcetext'">{{translation.sourcePhrase}}</span>
+    @if (translationfocus) {
+      <span>
+        <button (click)="openEditDialog()">Edit</button>
+        <button (click)="openDeleteDialog()">Delete</button>
+        <button class="datetime">Created: {{
+          translation.createdDate | date
+        }}</button>
+        <button class="datetime">Last done: {{
+          (translation.lastTestedDate.getTime() <= 1) ? "Untested" : translation.lastTestedDate |date
+        }}</button>
+      </span>
+    }
 
-    </div>
-    <div style="height:20px">
-        <span [ngClass]="darkMode ? 'translatedtext-dark': 'translatedtext'">{{translation.translatedPhrase}}</span>
-    </div>
+  </div>
+  <div style="height:20px">
+    <span [ngClass]="darkMode ? 'translatedtext-dark': 'translatedtext'">{{translation.translatedPhrase}}</span>
+  </div>
 </div>
