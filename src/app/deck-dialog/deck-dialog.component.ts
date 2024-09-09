@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from "@angular/material/dialog";
 import {MatInputModule } from "@angular/material/input";
 import { Inject } from '@angular/core';
@@ -14,7 +14,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-deck-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatInputModule,MatFormFieldModule, MatDialogModule, ReactiveFormsModule, MatAutocompleteModule],
+  imports: [CommonModule, MatInputModule,MatFormFieldModule, MatDialogModule, ReactiveFormsModule, MatAutocompleteModule],
   templateUrl: './deck-dialog.component.html',
   styleUrls: ['./deck-dialog.component.scss']
 })
