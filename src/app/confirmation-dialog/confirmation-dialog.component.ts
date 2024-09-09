@@ -2,9 +2,8 @@ import { Component, Inject } from '@angular/core';
 
 
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { Translation } from '../translation';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -17,11 +16,6 @@ export class ConfirmationDialogComponent {
   sourcePhrase:string = "Source";
   translatedPhrase:string = "Translated";
   darkMode:boolean = false;
-
-  form = new FormGroup({
-    sourcePhraseControl: new FormControl(''),
-    translatedPhraseControl: new FormControl('')
-  });
 
   constructor(
       @Inject(MAT_DIALOG_DATA) data: any,
