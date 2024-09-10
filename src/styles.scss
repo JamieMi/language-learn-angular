@@ -9,7 +9,7 @@
 html, body { height: 100%; }
 body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: 'Quattrocento Sans';
     background-color: var(--background-color-light);
     color: var(--text-color-light);
 }
@@ -30,13 +30,16 @@ button{
 
 .title {
     padding: 10px;
-    margin-top: 40px;
+    vertical-align:-4px;
+    font-family: 'Oswald';
+    font-size: 32px;
+    font-weight: bold;
 }
 
 .count {
     padding: 10px;
-    font-family: courier;
-    font-size: medium;
+    font-family: 'Quattrocento Sans';
+    font-size: 20px;
 }
 
 .disabledbutton{
@@ -55,6 +58,11 @@ button{
     border-radius:7px;
     margin: 4px;
     border: 0;
+}
+
+.button{
+    font-family: 'Quattrocento Sans';
+    font-size: 20px;
 }
 
 .button:hover{
