@@ -20,9 +20,16 @@ I still use the original system every day, using a database of 33000 words and p
 - Metrics of overall success or progress aren't useful, motivational or necessary to me - this isn't Duolingo.
 - The original application never offered editing for phrases, which had to be added or edited in a raw text file where they were stored.
 
+## Dark mode prototype (Figma)
+
+The prototype is modelled [here](https://www.figma.com/proto/VPPIUsvDk7BpsdHxu2XUF5/Language-Learn---dark-mode?content-scaling=fixed&embed_host=share&kind=proto&node-id=3-160&node-type=frame&page-id=0%3A1&scaling=min-zoom&starting-point-node-id=2%3A2&t=FY3sOTpSIMzeV01E-1) in Figma. The only functional button here is the switch between light mode and dark mode (click "Light mode").
+
+In this prototype hover effects are not modelled - but the second translation in the list shows the appearance when one hovers over an item.
+
 ## To do
 
 - Jest support has been temporarily dropped, because there isn't at the time of the Angular 18 release a version that will work with it.
+- Style differs between the home screen and the dialogs, as the dialogs are using Angular Materials styling. In everyday use, where no dialogs need to be opened, this isn't apparent.
 
 ## Install other necessary components
 
